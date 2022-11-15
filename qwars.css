@@ -1,0 +1,115 @@
+
+.zzz{ display: none}
+.hideit{ display: none}
+.tebal, .bold{font-weight: bold}
+.tengah, .center{text-align: center}
+.biru{color: blue}
+.green, .ijo, .hijau{color: green}
+.red, .merah{color: red}
+.blue, .biru{color: blue}
+.pink{color: pink}
+.brown,.coklat{color: brown}
+.orange,.oren{color: orange}
+.yellow,.kuning{color: yellow}
+.purple,.ungu{color: purple}
+
+.rounded-border{border: solid 1px #ccc; padding: 15px; border-radius: 15px;}
+
+.tombol{
+  border-radius: 10px;
+  padding: 6px 12px 6px 12px;
+
+}
+
+.btn-primary:disabled{
+  background-color: gray;
+  color: darkgray;
+  border: white;
+}
+
+.dashboard {
+  background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.2)), url("assets/img/dashboard-bg.jpg") fixed center center;
+  background-size: cover;
+  padding: 120px 0;
+  color: #fff;
+}
+
+.player {
+  background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.2)), url("assets/img/player-bg.jpg") fixed center center;
+  background-size: cover;
+  padding: 120px 0;
+  color: #fff;
+}
+
+.gm {
+  background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.2)), url("assets/img/gm-bg.jpg") fixed center center;
+  background-size: cover;
+  padding: 120px 0;
+  color: #fff;
+}
+
+.visitor {
+  background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.2)), url("assets/img/visitor-bg.jpg") fixed center center;
+  background-size: cover;
+  padding: 120px 0;
+  color: #fff;
+}
+
+.gm td {
+  color: #fff;
+}
+
+.gm a {
+  color: #ff0;
+  font-style: underline;
+}
+
+#tambah_room td {
+  padding: 3px;
+}
+
+.dashboard h3 {
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.dashboard p, .visitor p, .player p, .gm p {
+  color: #fff;
+}
+
+.dashboard .tddas {
+  color: #fff;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8));
+}
+
+.dashboard .tddas:hover {
+  color: #ff0;
+  background-color: white;
+}
+
+.dashboard .tdlead:hover {
+  color: #f00;
+  background-color: white;
+}
+
+.divjudul{
+  background: linear-gradient(rgba(0, 255, 0, 0.4), rgba(0, 255, 0, 0.8));
+  border: solid 1px #bbb;
+  padding: 3px;
+  text-align: center;
+}
+
+.divisi{
+  background: linear-gradient(rgba(0, 25, 0, 0.4), rgba(0, 25, 0, 0.5));
+  border: solid 1px #bbb;
+  padding: 3px;
+}
+
+
+.unplayed{
+  border: solid 1px #fdfdfd;
+  background-color: red
+}
+
+
