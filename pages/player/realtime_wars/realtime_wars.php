@@ -14,6 +14,10 @@
           transition: .2s;
         }
 
+        .blok_warriors a{
+          color: #03690d;
+        }
+
         .img_weapon{
           height: 18px;
           width: auto;

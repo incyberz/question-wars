@@ -18,7 +18,7 @@
 		// echo "</pre>";
 
 
-		if($cnickname!='abi' and $cadmin_level<2) die('Maaf, hanya GM yang berhak mengakses halaman ini.<hr><a href="https://pmb.ikmi.ac.id/pk" target="_blank">Login</a>');
+		if($cnickname!='abi' and $cadmin_level<2) die('Maaf, hanya GM yang berhak mengakses halaman ini.<hr><a href="https://ikmiapp.web.id/qwars" target="_blank">Login</a>');
 
 		include 'config.php';
 		$nickname = isset($_GET['nickname']) ? $_GET['nickname'] : '';
@@ -123,7 +123,7 @@
 				$('#cb_nim_saya').prop('disabled',false);
 
 				let nickname = $('#nickname').text();
-				let link_reset = encodeURIComponent(`https://pmb.ikmi.ac.id/pk/?resetpass&confirm=1&nickname=${nickname}&no_wa=${no_wa}`)
+				let link_reset = encodeURIComponent(`https://ikmiapp.web.id/qwars/?resetpass&confirm=1&nickname=${nickname}&no_wa=${no_wa}`)
 
 				$('#link_wa').prop('href',`https://api.whatsapp.com/send?phone=6287729007318&text=${pernyataan}%0a%0a${link_reset}`)				
 
