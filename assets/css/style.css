@@ -1193,11 +1193,6 @@ section {
 }
 
 @media (max-width: 992px) {
-  .faq {
-    /* img {
-      padding-top: 30px;
-    } */
-  }
   .faq .content {
     padding-top: 30px;
   }
