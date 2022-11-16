@@ -5,7 +5,7 @@ $id_chal = isset($_GET['id_chal']) ? $_GET['id_chal'] : die("Challenge id not se
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $limit_from = ($page-1)*10;
 
-$s = "SELECT a.* from tb_chal a where a.id_chal=$id_chal";
+$s = "SELECT a.*,(select count(1) from tb_chal_skill_level where id_chal=a.id_chal ) as jumlah_skill_level from tb_chal a where a.id_chal=$id_chal";
 $q = mysqli_query($cn,$s) or die("Tidak bisa mengakses data challenge. id_chal:$id_chal");
 $d = mysqli_fetch_assoc($q);
 
@@ -14,8 +14,68 @@ $chal_level = $d['chal_level'];
 $chal_desc = $d['chal_desc']; 
 $min_point = $d['min_point'];
 $max_point = $d['max_point'];
+
+$speed_point = $d['speed_point'];
+$ontime_in_days = $d['ontime_in_days'];
+$deadline_in_days = $d['deadline_in_days'];
+
 $chal_created = $d['chal_created'];
 $chal_creator = $d['chal_creator'];
+
+$sifat_chal = $d['sifat_chal'];
+$input_harus_mengandung = $d['input_harus_mengandung'];
+$input_tidak_mengandung = $d['input_tidak_mengandung'];
+
+$jumlah_skill_level = $d['jumlah_skill_level'];
+
+
+
+# ===================================================
+# JUMLAH SKILL POINT
+# ===================================================
+
+
+
+
+
+# ===================================================
+# SPEED POINT CALCULATION
+# ===================================================
+$speed_point_show = '<div class=wadah><h5>Speed Points Reward</h5><ul>';
+$speed_point_show .= "<li>Speed Point: <code>$speed_point</code> LP</li>";
+$speed_point_show .= "<li>Ontime dalam <code>$ontime_in_days</code> hari</li>";
+$speed_point_show .= "<li>Deadline dalam <code>$deadline_in_days</code> hari setelah batas ontime</li>";
+$speed_point_show .= "</ul>";
+
+if($speed_point>0) $speed_point_show .= "<p>Speed point maksimal yaitu $speed_point LP jika dikerjakan secara ontime dalam $ontime_in_days hari setelah jadwal perkuliahan! Lebih dari itu maka speed-point akan terus berkurang hingga 0 dalam waktu $deadline_in_days hari.</p>";
+$speed_point_show .= '</div>';
+
+
+
+
+# ===================================================
+# INPUT WAJIB MENGANDUNG
+# ===================================================
+if($input_harus_mengandung!=''){
+	$arr = explode(';;',$input_harus_mengandung);
+	$input_harus_mengandung = '<div class=wadah><h5>Link Submit wajib mengandung salah satu kata berikut:</h5><ol>';
+	for($i=0;$i<count($arr);$i++){
+		$input_harus_mengandung .= "<li><code>$arr[$i]</code></li>";
+	}
+	$input_harus_mengandung .= '</ol></div>';
+}
+
+# ===================================================
+# TIDAK BOLEH MENGANDUNG
+# ===================================================
+if($input_tidak_mengandung!=''){
+	$arr = explode(';;',$input_tidak_mengandung);
+	$input_tidak_mengandung = '<div class=wadah><h5>Link Submit tidak boleh mengandung salah satu kata berikut:</h5><ol>';
+	for($i=0;$i<count($arr);$i++){
+		$input_tidak_mengandung .= "<li><code>$arr[$i]</code></li>";
+	}
+	$input_tidak_mengandung .= '</ol></div>';
+}
 
 // $chal_desc = str_replace("<a ","< a ",$chal_desc);
 // $chal_desc = str_replace("<script ","< script ",$chal_desc);
@@ -39,7 +99,10 @@ $chal_details = "
 <br>~ Range Points : <span id='min_point'>$min_point</span> - <span id='max_point'>$max_point</span> LP
 <br>~ Created by : <span id='chal_creator'>$chal_creator</span> <small>at $chal_created</small>
 <div class='wadah' style='margin:10px 0'>
-	<small>$chal_desc</small>
+	$chal_desc 
+	$speed_point_show
+	$input_harus_mengandung 
+	$input_tidak_mengandung 
 	<div class='row'>
 		<div class='col-lg-4'></div>
 		<div class='col-lg-4'>
@@ -52,6 +115,7 @@ $chal_details = "
 ";
 ?>
 
+<style>.wadah{ margin:15px 0 } code { font-size:100%}</style>
 <section id="chal_details" class="gm">
 	<div class="container">
 
