@@ -4,54 +4,54 @@
 switch ($parameter) {
     case '':
     case 'dashboard': include "pages/player/dashboard/player_dashboard.php";
-    break;
+        break;
     case 'beatq': include "pages/player/kuis_play.php";
-    break;
+        break;
     case 'kuis': include "pages/player/play_kuis/pre_kuis.php";
-    break;
+        break;
     case 'play_kuis': include "pages/player/play_kuis/kuis.php";
-    break;
+        break;
     case 'delsoal': include "pages/player/hapus_soal.php";
-    break;
-    case 'chal': include "pages/player/challenge.php";
-    break;
-    case 'chalbeat': include "pages/player/challenge_beat_upload.php";
-    break;
-    case 'chalbeat2': include "pages/player/challenges/submit_bukti_challenge.php";
-    break;
-    case 'chaldet': include "pages/player/challenge_detail.php";
-    break;
+        break;
+    case 'chal': include "pages/player/challenge/challenge.php";
+        break;
+    case 'chalbeat': include "pages/player/challenge/submit_bukti_challenge_nolevel.php";
+        break;
+    case 'chalbeat2': include "pages/player/challenge/submit_bukti_challenge.php";
+        break;
+    case 'chaldet': include "pages/player/challenge/challenge_detail.php";
+        break;
     case 'change_room': include "pages/player/change_room.php";
-    break;
+        break;
     case 'myq': include "pages/player/player_question/player_question.php";
-    break;
+        break;
     case 'playedby': include "pages/player/soal_playedby.php";
-    break;
+        break;
     case 'presensi': include "pages/player/presensi.php";
-    break;
+        break;
     case 'konversi_nilai': include "pages/player/konversi_nilai/konversi_nilai.php";
-    break;
+        break;
     case 'ubah_pass': include "pages/player/ubah_password/ubah_pass.php";
-    break;
+        break;
     case 'tugas': include "pages/player/tugas_harian/tugas_harian.php";
-    break;
+        break;
 
     case 'rank_kelas': include "pages/player/player_info/player_info_rank_kelas.php";
-    break;
+        break;
     case 'rank_prodi': include "pages/player/player_info/player_info_rank_prodi.php";
-    break;
+        break;
     case 'rank_global': include "pages/player/player_info/player_info_rank_global.php";
-    break;
+        break;
 
     case 'paling_rajin': include "pages/player/player_info/player_info_paling_rajin.php";
-    break;
+        break;
     case 'investor_soal': include "pages/player/player_info/player_info_investor_soal.php";
-    break;
+        break;
     case 'best_chal': include "pages/player/player_info/player_info_best_challenger.php";
-    break;
+        break;
 
     case 'help': include "pages/player/player_info/player_info_bantuan.php";
-    break;
+        break;
         // case 'resetpass': include "pages/player/login_system/reset_password.php"; break;
 
 
@@ -63,39 +63,39 @@ switch ($parameter) {
             # =================================================
             switch ($parameter) {
                 case '': include "pages/gm/gm_dashboard.php";
-                break;
+                    break;
                 case 'dashboard': include "pages/gm/gm_dashboard.php";
-                break;
+                    break;
                 case 'change_room': include "pages/player/change_room.php";
-                break;
+                    break;
                 case 'addroom': include "pages/gm/room_add.php";
-                break;
+                    break;
                 case 'addchal': include "pages/gm/challenge_add.php";
-                break;
+                    break;
                 case 'managekelas': include "pages/gm/manage_kelas.php";
-                break;
+                    break;
                 case 'detail_kelas': include "pages/gm/detail_kelas.php";
-                break;
+                    break;
                 case 'manageplayers': include "pages/gm/manage_players.php";
-                break;
+                    break;
                 case 'manageroom': include "pages/gm/room_details.php";
-                break;
+                    break;
                 case 'playerqs': include "pages/gm/manage_player_questions.php";
-                break;
+                    break;
                 case 'fpresensi': include "pages/gm/gm_presensi_feedback.php";
-                break;
+                    break;
                 case 'rpresensi': include "pages/gm/presensi_rekap.php";
-                break;
+                    break;
                 case 'manage_peserta_kelas': include "pages/gm/manage_kelas/manage_peserta_kelas.php";
-                break;
+                    break;
                 case 'listplayers': include "pages/gm/manage_players/list_players.php";
-                break;
+                    break;
                 case 'lap_na': include "pages/gm/laporan_nilai_akhir/laporan_nilai_akhir.php";
-                break;
+                    break;
                 case 'logas': include "pages/gm/login_as/login_as.php";
-                break;
+                    break;
                 default: include "na.php";
-                break;
+                    break;
             }
         } else {
             include "na.php";

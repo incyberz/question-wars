@@ -1,35 +1,6 @@
 <?php
 $id_skill_level = isset($_GET['id_skill_level']) ? $_GET['id_skill_level'] : die("id_skill_level not set.");
-$proof_link = '';
-if (isset($_POST['proof_link'])) {
-    $proof_link = $_POST['proof_link'];
-}
-
-$input_harus_mengandung = '';
-$input_tidak_mengandung = '';
-
-//zzz debug
-$input_harus_mengandung = "
-<div class='alert alert-warning'>
-<h4>Ketentuan Link</h4>
-<div>Input link wajib mengandung kata-kata berikut:</div>
-<ul>
-	<li>https://</li>
-
-</ul>
-</div>
-";
-
-$input_tidak_mengandung = "
-<div class='alert alert-warning'>
-<div>Link tidak boleh mengandung kata-kata berikut:</div>
-<ul>
-	<li>file://</li>
-	<li>localhost</li>
-</ul>
-</div>
-";
-
+$proof_link = isset($_POST['proof_link']) ? $_POST['proof_link'] : '';
 
 $s = "SELECT * from tb_chal a 
 join tb_chal_skill_level b on a.id_chal=b.id_chal 
@@ -37,15 +8,16 @@ where b.id_skill_level=$id_skill_level";
 $q = mysqli_query($cn, $s) or die("Tidak bisa mengakses data challenge. id_chal:$id_chal");
 $d = mysqli_fetch_assoc($q);
 
+$id_chal = $d['id_chal'];
 $chal_name = $d['chal_name'];
 $chal_level = $d['chal_level'];
 $chal_desc = $d['chal_desc'];
 $min_point = $d['min_point'];
 $max_point = $d['max_point'];
 
-$speed_point = $d['speed_point'];
-$ontime_in_days = $d['ontime_in_days'];
-$deadline_in_days = $d['deadline_in_days'];
+// $speed_point = $d['speed_point'];
+// $ontime_in_days = $d['ontime_in_days'];
+// $deadline_in_days = $d['deadline_in_days'];
 
 $chal_created = $d['chal_created'];
 $chal_creator = $d['chal_creator'];
@@ -70,22 +42,19 @@ $judul_page = "<p>$link_back | Submit Hasil Challenge!</p>
 
 
 
-
+function get_point_now($batas_ontime, $deadline_in_days, $speed_point)
+{
+    return intval((strtotime(date('Y-m-d H:i:s', strtotime($batas_ontime.' + 7 days'))) - strtotime(date('Y-m-d H:i:s'))) / ($deadline_in_days * 24 * 60 * 60) *$speed_point);
+}
 
 
 # ===================================================
 # TOTAL POINT CALCULATION
 # ===================================================
 $speed_point = $d['speed_point'];
-$tanggal_deadline = $d['tanggal_deadline']!='' ? $d['tanggal_deadline'] : die('Tanggal deadline belum ditentukan.');
+$batas_ontime = $d['batas_ontime']!='' ? $d['batas_ontime'] : die('Batas ontime belum ditentukan.');
 
-$tanggal_deadline = '2022-11-16 19:29:00';
-
-$tanggal_deadline2 = date('Y-m-d H:i:s', strtotime($tanggal_deadline.' + 7 days'));
-
-$selisih = strtotime(date('Y-m-d H:i:s')) - strtotime($tanggal_deadline);
-$max_selisih = $d['deadline_in_days'] * 24 * 60 * 60;
-$selisih2 = strtotime($tanggal_deadline2) - strtotime(date('Y-m-d H:i:s'));
+$selisih = strtotime(date('Y-m-d H:i:s')) - strtotime($batas_ontime);
 
 
 if ($selisih<0) {
@@ -93,8 +62,8 @@ if ($selisih<0) {
     $sudah_deadline = 'Kamu masih bisa upload bukti challenge secara ontime.';
 } else {
     if ($selisih < (($d['deadline_in_days']) * 24 * 60 * 60)) {
-        $speed_point_now = intval($selisih2 / $max_selisih*$d['speed_point']);
-        $sudah_deadline = 'Kamu melebihi deadline tapi kamu masih berhak mendapatkan speed point.';
+        $speed_point_now = get_point_now($batas_ontime, $d['deadline_in_days'], $d['speed_point']);
+        $sudah_deadline = 'Kamu melebihi batas ontime dan kamu masih berhak mendapatkan speed point.';
     } else {
         $speed_point_now = 0;
         $sudah_deadline = 'Maaf, kamu sudah melebihi deadline dan tidak mendapatkan speed point.';
@@ -108,13 +77,13 @@ $total_point_show = number_format($total_point, 0);
 
 
 $total_point_show = "<div class=wadah><h5>Total Points Reward</h5>
-<ul><li>Tanggal deadline: $tanggal_deadline</li><li>$sudah_deadline</li></ul>
+<ul><li>Batas ontime: $batas_ontime</li><li>$sudah_deadline</li></ul>
 <p>Point calculation:</p>
 <table class=table>
   <tr>
     <td>
       Skill Point <code>::</code> $d[nama_skill_level]
-      <div><small>Persyaratan: $d[syarat_skill_level]</small></div>
+      <div><span class='badge badge-success'>Syarat: </span>&nbsp;<small> $d[syarat_skill_level]</small></div>
     </td>
     <td align=right>$poin_skill_level_show LP</td>
   </tr>
@@ -123,8 +92,12 @@ $total_point_show = "<div class=wadah><h5>Total Points Reward</h5>
     <td align=right>$speed_point_now_show LP</td>
   </tr>
   <tr>
+    <td>GM Point</td>
+    <td align=right>? LP</td>
+  </tr>
+  <tr>
     <td align=right>Estimasi Poin yang kamu dapatkan:</td>
-    <td align=right><h5>$total_point_show LP</h5></td>
+    <td align=right><h5>~$total_point_show LP</h5></td>
   </tr>
 </table>
 </div>
@@ -180,22 +153,27 @@ $chal_details = "
 
 $pesan = '';
 
+
+# =======================================================
+# FORM PROCESSOR
+# =======================================================
 if (isset($_POST['btn_submit_proof'])) {
     $id_chal = strip_tags($_POST['id_chal']);
+    $id_skill_level = strip_tags($_POST['id_skill_level']);
     $proof_link = strip_tags($_POST['proof_link']);
 
     $id_chal_beatenby = $id_chal."_$cnickname";
 
     $s = "INSERT INTO tb_chal_beatenby (
 	
-	id_chal_beatenby, id_chal, beaten_by, proof_link
+	id_chal_beatenbys, id_chal, beaten_by, proof_link
 	) values (
 	'$id_chal_beatenby', '$id_chal', '$cnickname', '$proof_link')";
 
 
     if (mysqli_query($cn, $s)) {
         $pesan= "<div class='alert alert-success'>
-		Sukses submit bukti challenge. <br><br>Tunggu hingga GM memverifikasi bukti yang kamu kirim. Terimakasih.<hr>
+		  Sukses submit bukti challenge. <br><br>Tunggu hingga GM memverifikasi bukti yang kamu kirim. Terimakasih.<hr>
 		<a href='?chal' class='btn btn-primary btn-sm'>Back to Challenge List</a> 
 		</div><hr>";
     } else {
@@ -221,7 +199,8 @@ if (isset($_POST['btn_submit_proof'])) {
 
 
 			<form method="post" action="?chalbeat&id_chal=<?=$id_chal?>">
-				<input type="hidden" name="id_chal" value="<?=$id_chal?>">
+				<input type="hiddena" name="id_chal" value="<?=$id_chal?>">
+				<input type="hiddena" name="id_skill_level" value="<?=$id_skill_level?>">
 
 
 				<div class="form-group">
@@ -229,7 +208,7 @@ if (isset($_POST['btn_submit_proof'])) {
 					<input type="text" class="form-control" name="proof_link" required minlength="15" maxlength="200" value="<?=$proof_link?>">
 
 					<div>&nbsp;</div>
-          <div><span class='badge badge-danger'>Banned Warning! Jika bukti challenge tidak sesuai dengan persyaratan.</span></div>
+          <div><span class='badge badge-danger'>Perhatian! Bukti akan di-Banned jika tidak sesuai dengan persyaratan.</span></div>
 
 				</div>
 
