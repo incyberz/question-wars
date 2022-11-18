@@ -173,7 +173,7 @@ if (isset($_POST['btn_submit_proof'])) {
 
 
     if (mysqli_query($cn, $s)) {
-        $pesan= "<div class='alert alert-success'>Sukses submit bukti challenge. <br><br>Tunggu hingga GM memverifikasi bukti yang kamu kirim. Terimakasih.<hr><a href='?chalbeat2&id_skill_level=$id_skill_level' class='btn btn-primary btn-sm'>Back to Challenge Details</a></div><hr>";
+        $pesan= "<div class='alert alert-success'>Sukses submit bukti challenge. <br><br>Tunggu hingga GM memverifikasi bukti yang kamu kirim. Terimakasih.<hr><a href='?chaldet&id_chal=$id_chal' class='btn btn-primary btn-sm'>Back to Challenge Details</a></div><hr>";
     } else {
         $r = mysqli_error($cn);
         $pesan= "<div class='alert alert-danger'>Gagal submit bukti challenge. $r<hr><a href='?chaldet&id_chal=$id_chal' class='btn btn-primary btn-sm'>Back to Challenge Details</a></div><hr>";
@@ -193,8 +193,8 @@ if (isset($_POST['btn_submit_proof'])) {
 
 
 			<form method="post">
-				<input type="hiddena" name="id_chal" value="<?=$id_chal?>">
-				<input type="hiddena" name="id_skill_level" value="<?=$id_skill_level?>">
+				<input type="hidden" name="id_chal" value="<?=$id_chal?>">
+				<input type="hidden" name="id_skill_level" value="<?=$id_skill_level?>">
 
 
 				<div class="form-group">
