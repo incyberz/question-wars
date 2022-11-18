@@ -80,6 +80,8 @@ switch ($parameter) {
                     break;
                 case 'managechal': include "pages/gm/manage_challenge.php";
                     break;
+                case 'manageskilllevel': include "pages/gm/manage_skill_level.php";
+                    break;
                 case 'editchal': include "pages/gm/edit_challenge.php";
                     break;
                 case 'manageroom': include "pages/gm/room_details.php";
