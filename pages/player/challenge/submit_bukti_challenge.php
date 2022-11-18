@@ -15,9 +15,9 @@ $chal_desc = $d['chal_desc'];
 $min_point = $d['min_point'];
 $max_point = $d['max_point'];
 
-// $speed_point = $d['speed_point'];
-// $ontime_in_days = $d['ontime_in_days'];
-// $deadline_in_days = $d['deadline_in_days'];
+$speed_point = $d['speed_point'];
+$ontime_in_days = $d['ontime_in_days'];
+$deadline_in_days = $d['deadline_in_days'];
 
 $chal_created = $d['chal_created'];
 $chal_creator = $d['chal_creator'];
@@ -25,6 +25,8 @@ $chal_creator = $d['chal_creator'];
 $sifat_chal = $d['sifat_chal'];
 $input_harus_mengandung = $d['input_harus_mengandung'];
 $input_tidak_mengandung = $d['input_tidak_mengandung'];
+
+$poin_skill_level = $d['poin_skill_level'];
 
 
 
@@ -51,9 +53,7 @@ function get_point_now($batas_ontime, $deadline_in_days, $speed_point)
 # ===================================================
 # TOTAL POINT CALCULATION
 # ===================================================
-$speed_point = $d['speed_point'];
 $batas_ontime = $d['batas_ontime']!='' ? $d['batas_ontime'] : die('Batas ontime belum ditentukan.');
-
 $selisih = strtotime(date('Y-m-d H:i:s')) - strtotime($batas_ontime);
 
 
@@ -62,7 +62,7 @@ if ($selisih<0) {
     $sudah_deadline = 'Kamu masih bisa upload bukti challenge secara ontime.';
 } else {
     if ($selisih < (($d['deadline_in_days']) * 24 * 60 * 60)) {
-        $speed_point_now = get_point_now($batas_ontime, $d['deadline_in_days'], $d['speed_point']);
+        $speed_point_now = get_point_now($batas_ontime, $deadline_in_days, $speed_point);
         $sudah_deadline = 'Kamu melebihi batas ontime dan kamu masih berhak mendapatkan speed point.';
     } else {
         $speed_point_now = 0;
@@ -164,25 +164,19 @@ if (isset($_POST['btn_submit_proof'])) {
 
     $id_chal_beatenby = $id_chal."_$cnickname";
 
+    $estimasi_poin = $poin_skill_level + get_point_now($batas_ontime, $deadline_in_days, $speed_point);
+
     $s = "INSERT INTO tb_chal_beatenby (
-	
-	id_chal_beatenbys, id_chal, beaten_by, proof_link
-	) values (
-	'$id_chal_beatenby', '$id_chal', '$cnickname', '$proof_link')";
+	  id_chal_beatenby, id_chal, beaten_by, proof_link, id_skill_level, estimasi_poin
+	  ) values (
+	  '$id_chal_beatenby', '$id_chal', '$cnickname', '$proof_link', '$id_skill_level', '$estimasi_poin')";
 
 
     if (mysqli_query($cn, $s)) {
-        $pesan= "<div class='alert alert-success'>
-		  Sukses submit bukti challenge. <br><br>Tunggu hingga GM memverifikasi bukti yang kamu kirim. Terimakasih.<hr>
-		<a href='?chal' class='btn btn-primary btn-sm'>Back to Challenge List</a> 
-		</div><hr>";
+        $pesan= "<div class='alert alert-success'>Sukses submit bukti challenge. <br><br>Tunggu hingga GM memverifikasi bukti yang kamu kirim. Terimakasih.<hr><a href='?chalbeat2&id_skill_level=$id_skill_level' class='btn btn-primary btn-sm'>Back to Challenge Details</a></div><hr>";
     } else {
         $r = mysqli_error($cn);
-        $pesan= "<div class='alert alert-danger'>
-		Gagal submit bukti challenge. $r
-		<hr>
-		<a href='?chaldet&id_chal=$id_chal' class='btn btn-primary btn-sm'>Back to Challenge Details</a>
-		</div><hr>";
+        $pesan= "<div class='alert alert-danger'>Gagal submit bukti challenge. $r<hr><a href='?chaldet&id_chal=$id_chal' class='btn btn-primary btn-sm'>Back to Challenge Details</a></div><hr>";
     }
 }
 
@@ -198,7 +192,7 @@ if (isset($_POST['btn_submit_proof'])) {
         ?>
 
 
-			<form method="post" action="?chalbeat&id_chal=<?=$id_chal?>">
+			<form method="post">
 				<input type="hiddena" name="id_chal" value="<?=$id_chal?>">
 				<input type="hiddena" name="id_skill_level" value="<?=$id_skill_level?>">
 

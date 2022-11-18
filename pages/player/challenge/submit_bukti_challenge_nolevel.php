@@ -1,6 +1,11 @@
 <?php
-if(!isset($_GET['id_chal'])) die("Challenge id not set."); $id_chal = $_GET['id_chal'];
-$proof_link = ''; if(isset($_POST['proof_link'])) $proof_link = $_POST['proof_link'];
+if (!isset($_GET['id_chal'])) {
+    die("Challenge id not set.");
+} $id_chal = $_GET['id_chal'];
+$proof_link = '';
+if (isset($_POST['proof_link'])) {
+    $proof_link = $_POST['proof_link'];
+}
 
 $input_harus_mengandung = '';
 $input_tidak_mengandung = '';
@@ -29,7 +34,7 @@ $input_tidak_mengandung = "
 
 
 $s = "SELECT a.* from tb_chal a where a.id_chal=$id_chal";
-$q = mysqli_query($cn,$s) or die("Tidak bisa mengakses data challenge. id_chal:$id_chal");
+$q = mysqli_query($cn, $s) or die("Tidak bisa mengakses data challenge. id_chal:$id_chal");
 $d = mysqli_fetch_assoc($q);
 
 $chal_name = $d['chal_name'];
@@ -50,33 +55,32 @@ $chal_details = "
 
 $pesan = '';
 
-if(isset($_POST['btn_submit_proof'])){
+if (isset($_POST['btn_submit_proof'])) {
+    $id_chal = strip_tags($_POST['id_chal']);
+    $proof_link = strip_tags($_POST['proof_link']);
 
-	$id_chal = strip_tags($_POST['id_chal']); 
-	$proof_link = strip_tags($_POST['proof_link']); 
+    $id_chal_beatenby = $id_chal."_$cnickname";
 
-	$id_chal_beatenby = $id_chal."_$cnickname";
-
-	$s = "INSERT INTO tb_chal_beatenby (
+    $s = "INSERT INTO tb_chal_beatenby (
 	
 	id_chal_beatenby, id_chal, beaten_by, proof_link
 	) values (
 	'$id_chal_beatenby', '$id_chal', '$cnickname', '$proof_link')";
 
 
-	if(mysqli_query($cn,$s)){
-		$pesan= "<div class='alert alert-success'>
+    if (mysqli_query($cn, $s)) {
+        $pesan= "<div class='alert alert-success'>
 		Sukses submit bukti challenge. <br><br>Tunggu hingga GM memverifikasi bukti yang kamu kirim. Terimakasih.<hr>
-		<a href='?chal' class='btn btn-primary btn-sm'>Back to Challenge List</a> 
+		<a href='?chaldet&id_chal=$id_chal' class='btn btn-primary btn-sm'>Back to Challenge Detail</a> 
 		</div><hr>";
-	}else{
-		$r = mysqli_error($cn);
-		$pesan= "<div class='alert alert-danger'>
+    } else {
+        $r = mysqli_error($cn);
+        $pesan= "<div class='alert alert-danger'>
 		Gagal submit bukti challenge. $r
 		<hr>
 		<a href='?chaldet&id_chal=$id_chal' class='btn btn-primary btn-sm'>Back to Challenge Details</a>
 		</div><hr>";
-	}
+    }
 }
 
 ?>
@@ -84,7 +88,7 @@ if(isset($_POST['btn_submit_proof'])){
 <section id="beat_chal" class="gm">
 	<div class="container">
 		<?=$pesan?>
-		<?php if($pesan==""){ ?>
+		<?php if ($pesan=="") { ?>
 			<p><?=$link_back?> | Submit Hasil Challenge!</p>
 			<h4 style='color:#7ff'><?=$chal_name?></h4>
 			<p>Silahkan kamu masukan link Youtube/Google Drive atau link lainnya sebagai bukti bahwa kamu telah melaksanakan challenge tersebut. Harap bersabar karena verifikasi challenge praktikum dilakukan secara manual oleh GM. Kamu boleh mengklaim reward setelah link bukti diverifikasi oleh GM.</p>

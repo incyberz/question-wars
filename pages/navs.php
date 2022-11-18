@@ -1,22 +1,24 @@
-<?php 
+<?php
 // $img_profile = "assets/img/players/profile_na.jpg";
 // $room_player_point  = $d['room_player_point'];
 // $singkatan_room  = $d['singkatan_room'];
 // $link_path  = $d['link_path'];
 
 if ($cid_room!=0 and $cadmin_level!=0) {
-  $s = "SELECT a.room_player_point,b.singkatan_room,c.link_path from  tb_room_player a 
+    $s = "SELECT a.room_player_point,b.singkatan_room,c.link_path from  tb_room_player a 
   join tb_room b on a.id_room=b.id_room 
   join tb_player c on a.nickname=c.nickname 
   where a.id_room = '$cid_room' and a.nickname='$cnickname'";
-  $q = mysqli_query($cn, $s) or die("Error @navs. Tidak bisa mengakses room_player_point $s");
-  $d = mysqli_fetch_assoc($q);
-  $room_player_point  = round($d['room_player_point']);
-  $singkatan_room  = $d['singkatan_room'];
-  $link_path  = $d['link_path'];
+    $q = mysqli_query($cn, $s) or die("Error @navs. Tidak bisa mengakses room_player_point $s");
+    $d = mysqli_fetch_assoc($q);
+    $room_player_point  = round($d['room_player_point']);
+    $singkatan_room  = $d['singkatan_room'];
+    $link_path  = $d['link_path'];
 
-  $img_profile = "assets/img/players/profile_$cnickname"."_$link_path.jpg";
-  if(!file_exists($img_profile)) $img_profile = "assets/img/players/profile_na.jpg";
+    $img_profile = "assets/img/players/profile_$cnickname"."_$link_path.jpg";
+    if (!file_exists($img_profile)) {
+        $img_profile = "assets/img/players/profile_na.jpg";
+    }
 }
 ?>
 
@@ -31,7 +33,7 @@ if ($cid_room!=0 and $cadmin_level!=0) {
       <li><a href="#counts">Our Achievements</a></li>
       <li><a href="#faq">What is this?</a></li>
 
-    <?php }elseif($is_login and $cadmin_level!=0 and $cid_room!=0){ ?>
+    <?php } elseif ($is_login and $cadmin_level!=0 and $cid_room!=0) { ?>
 
 
       <!-- =============================================== -->
@@ -52,7 +54,7 @@ if ($cid_room!=0 and $cadmin_level!=0) {
           <!-- =============================================== -->
           <!-- MENU CHANGE ROOM -->
           <!-- =============================================== -->
-          <?php if($manage_room_headers!=""){ ?>
+          <?php if ($manage_room_headers!="") { ?>
             <li class="drop-down"><a href="#">Change Room</a>
               <ul>
                 <?=$manage_room_headers?>
@@ -85,20 +87,21 @@ if ($cid_room!=0 and $cadmin_level!=0) {
       <!-- =============================================== -->
       <!-- MENU KHUSUS GM -->
       <!-- =============================================== -->
-      <?php 
+      <?php
       if ($cadmin_level==2 or $cadmin_level==9) {
-        ?>
+          ?>
         <li class="drop-down"><a href="#">Fitur GM</a>
           <ul>
             <li><a href="?listplayers" >Kenali Mahasiswa</a></li>
-            <li><a href="?manageplayers" >Assign Players</a></li>
-            <li><a href="?manageroom" >Manage Rooms & RPS</a></li>
+            <li><a href="?manageplayers" >Manage Players</a></li>
             <li><a href="?managekelas" >Manage Kelas</a></li>
-            <li><a href="?addroom" >Add Room</a></li>
-            <li><a href="?playerqs" >Player Questions</a></li>
+            <li><a href="?manageroom" >Manage Pertemuan</a></li>
+            <li><a href="?managechal" >Manage Challenge</a></li>
+            <li><a href="?playerqs" >Manage Questions</a></li>
             <li><a href="?rpresensi" >Laporan Presensi</a></li>
             <li><a href="?lap_na" >Laporan Nilai Akhir</a></li>
             <li><a href="?fpresensi" >Feedback Presensi</a></li>
+            <li><a href="?addroom" >Add New Room</a></li>
           </ul>
         </li>
 
@@ -109,14 +112,13 @@ if ($cid_room!=0 and $cadmin_level!=0) {
       # ======================================================= -->
       # SHOW LOGAS BACK -->
       # ======================================================= -->
-      if(isset($_SESSION['logas_nickname'])){
-        echo "
+      if (isset($_SESSION['logas_nickname'])) {
+          echo "
           <li><a style='background:yellow; color:red' href='?unlogas' onclick='return confirm(\"Yakin mau kembali sebagai GM?\")'>unLog-As</a></li>
         ";
       }
-
-    } 
-    ?>
+    }
+?>
 
 
     <!-- ======================================================= -->
@@ -126,7 +128,6 @@ if ($cid_room!=0 and $cadmin_level!=0) {
       <li><a href="?logout" onclick="return confirm('Yakin untuk Logout?')">Logout</a></li>
     <?php } ?>
 
-    <!-- <button>zzz</button> -->
 
   </ul>
 
