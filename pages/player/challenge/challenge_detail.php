@@ -105,7 +105,7 @@ if ($sudah_beat) {
     $opsi_skill_levels = '<div class=wadah><h5>Skill Levels Options</h5><ul><li><i>(none)</i></li></ul></div>';
     if ($jumlah_skill_level>0) {
         $btn_beat = '';
-        $s = "SELECT * from tb_chal_skill_level where id_chal='$id_chal'";
+        $s = "SELECT * from tb_chal_skill_level where id_chal='$id_chal' order by poin_skill_level";
         $q = mysqli_query($cn, $s) or die('Tidak bisa mengakses data skill level.');
         $opsi_skill_levels = '<div class=wadah><h5>Skill Levels Options</h5>
 		<p>Silahkan pilih skill point reward yang ingin kalian raih. Jika kamu sibuk bekerja dan tidak ada waktu luang boleh boleh memilih challenge termudah. Dan jika kamu orangnya kreatif dan banyak waktu luang silahkan pilih challenge yang paling menantang!</p>
