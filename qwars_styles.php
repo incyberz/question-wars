@@ -224,4 +224,21 @@
   .row_leaderboard:hover{
     letter-spacing: .8px;
   }
+
+
+
+
+
+
+
+
+  .gm_comment{
+    color:yellow;
+    cursor: pointer;
+    transition: .3s;
+    margin-top: 5px;
+  }
+  .gm_comment:hover{
+    letter-spacing: .5px;
+  }
 </style>

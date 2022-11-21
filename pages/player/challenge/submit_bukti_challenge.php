@@ -161,15 +161,17 @@ if (isset($_POST['btn_submit_proof'])) {
     $id_chal = strip_tags($_POST['id_chal']);
     $id_skill_level = strip_tags($_POST['id_skill_level']);
     $proof_link = strip_tags($_POST['proof_link']);
+    $pesan_untuk_gm = strip_tags($_POST['pesan_untuk_gm']);
+    $pesan_untuk_gm = trim($pesan_untuk_gm)=='' ? 'NULL' : "'$pesan_untuk_gm'";
 
     $id_chal_beatenby = $id_chal."_$cnickname";
 
     $estimasi_poin = $poin_skill_level + get_point_now($batas_ontime, $deadline_in_days, $speed_point);
 
     $s = "INSERT INTO tb_chal_beatenby (
-	  id_chal_beatenby, id_chal, beaten_by, proof_link, id_skill_level, estimasi_poin
+	  id_chal_beatenby, id_chal, beaten_by, proof_link, id_skill_level, estimasi_poin, pesan_untuk_gm
 	  ) values (
-	  '$id_chal_beatenby', '$id_chal', '$cnickname', '$proof_link', '$id_skill_level', '$estimasi_poin')";
+	  '$id_chal_beatenby', '$id_chal', '$cnickname', '$proof_link', '$id_skill_level', '$estimasi_poin',$pesan_untuk_gm)";
 
 
     if (mysqli_query($cn, $s)) {
@@ -201,12 +203,18 @@ if (isset($_POST['btn_submit_proof'])) {
 					<label>Paste Link Bukti Pengerjaan kamu disini !!</label>
 					<input type="text" class="form-control" name="proof_link" required minlength="15" maxlength="200" value="<?=$proof_link?>">
 
-					<div>&nbsp;</div>
-          <div><span class='badge badge-danger'>Perhatian! Bukti akan di-Banned jika tidak sesuai dengan persyaratan.</span></div>
+          <div class="mt-2"><span class='badge badge-danger'>Perhatian! Bukti akan di-Banned jika tidak sesuai dengan persyaratan.</span></div>
 
 				</div>
 
 				<div class="form-group">
+					<label>Pesan untuk GM:</label>
+          <textarea name="pesan_untuk_gm" class="form-control"></textarea>
+          <small><i>Optional</i></small>
+
+				</div>
+
+        <div class="form-group">
 					<button class="btn btn-primary btn-block" name="btn_submit_proof">Submit Bukti Challenge</button>
 				</div>
 			</form>

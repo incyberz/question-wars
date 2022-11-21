@@ -56,6 +56,7 @@
 	        $proof_link = $d['proof_link'];
 	        $gm_comment = $d['gm_comment'];
 	        $folder_uploads = $d['folder_uploads'];
+	        $pesan_untuk_gm_show = $d['pesan_untuk_gm']=='' ? '' : '<small>pesan: '.$d['pesan_untuk_gm'].'</small>';
 
 	        $id_skill_level = $d['id_skill_level'];
 	        $estimasi_poin = $d['estimasi_poin'];
@@ -97,19 +98,20 @@
 	            $sty_tr = " style='background-color:green; padding:15px 0px' ";
 	        }
 
-	        $estimasi_poin_show = $estimasi_poin>0 ? "<div>Estimasi poin: ".number_format($estimasi_poin, 0)."<span id='estimasi_poin__$id_chal_beatenby' class='hideit'>$estimasi_poin</span></div>" : '';
+	        $estimasi_poin_show = $estimasi_poin>0 ? "<div>Estimasi poin: ".number_format($estimasi_poin, 0)."</div>" : '';
+	        $estimasi_poin_show .= "<span id='estimasi_poin__$id_chal_beatenby' class='hideit'>$estimasi_poin</span>";
 
 	        $score_for_player_show = $score_for_player==0 ? '<i>(belum ada)</i>' : number_format($score_for_player, 0).' LP';
-	        $scores = "<span id='score_for_player__$id_chal_beatenby'>$score_for_player_show</span>$estimasi_poin_show";
+	        $scores = "<span id='score_for_player__$beaten_by"."__$id_chal_beatenby'>$score_for_player_show</span>$estimasi_poin_show";
 	        if ($is_claimed==1) {
-	            $scores = "<span id='score_for_player__$id_chal_beatenby'>$score_for_player</span> LP<br><span class='badge badge-success'>Claimed</span>";
+	            $scores .= "<span class='badge badge-success'>Claimed</span>";
 	        }
 
 	        # =========================================================
 	        # BUTTON CLAIM OWN REWARD
 	        # =========================================================
 	        if ($beaten_by==$cnickname and $score_for_player>0 and $is_claimed==0) {
-	            $scores = "<div><span id='score_for_player__$id_chal_beatenby'>$score_for_player</span> LP<br><button class='btn btn-primary btn-sm btn-block btn_claim_rewards' id='btn_claim_rewards__$id_chal_beatenby'>Claim Challenge Rewards</button></div>";
+	            $scores .= "<div><button class='btn btn-primary btn-sm btn-block btn_claim_rewards' id='btn_claim_rewards__$id_chal_beatenby'>Claim Challenge Rewards</button></div>";
 	        }
 	        # =========================================================
 
@@ -117,7 +119,7 @@
 	        $approved = "<span class='badge badge-success' id='approved_by__$id_chal_beatenby'>Approved by: $approved_by_name</span> <small>at $date_approved</small>";
 	        if ($approved_by=="") {
 	            $approved = "<span class='badge badge-info' id='approved_by__$id_chal_beatenby'>Belum diperiksa</span>";
-	            // $scores .= "<span class='badge badge-warning' id='score_for_player__$id_chal_beatenby'>Unknown</span>";
+	            // $scores .= "<span class='badge badge-warning' id='score_for_player__$beaten_by"."__$id_chal_beatenby'>Unknown</span>";
 	        }
 
 
@@ -143,10 +145,10 @@
 	                $hide_btn[3] = '';
 	            }
 	            $scores.= '<div>';
-	            $scores.= "<button id='btn_approve__$id_chal_beatenby' class='$hide_btn[0] btn_set_reject mr-1 mt-1 btn btn-success btn-sm'>Approve</button>";
-	            $scores.= "<button id='btn_set__$id_chal_beatenby' class='$hide_btn[1] btn_set_reject mr-1 mt-1 btn btn-primary btn-sm'>Set</button>";
-	            $scores.= "<button id='btn_reject__$id_chal_beatenby' class='$hide_btn[2] btn_set_reject mr-1 mt-1 btn btn-danger btn-sm'>Reject</button>";
-	            $scores.= "<button id='btn_undo__$id_chal_beatenby' class='$hide_btn[3] btn_set_reject mr-1 mt-1 btn btn-warning btn-sm btn-block'>Undo Approve</button>";
+	            $scores.= "<button id='btn_approve__$beaten_by"."__$id_chal_beatenby' class='$hide_btn[0] btn_set_reject mr-1 mt-1 btn btn-success btn-sm'>Approve</button>";
+	            $scores.= "<button id='btn_set__$beaten_by"."__$id_chal_beatenby' class='$hide_btn[1] btn_set_reject mr-1 mt-1 btn btn-primary btn-sm'>Set</button>";
+	            $scores.= "<button id='btn_reject__$beaten_by"."__$id_chal_beatenby' class='$hide_btn[2] btn_set_reject mr-1 mt-1 btn btn-danger btn-sm'>Reject</button>";
+	            $scores.= "<button id='btn_undo__$beaten_by"."__$id_chal_beatenby' class='$hide_btn[3] btn_set_reject mr-1 mt-1 btn btn-warning btn-sm btn-block'>Undo Approve</button>";
 	            $scores.= '</div>';
 	        }
 
@@ -177,9 +179,11 @@
 	        # =========================================================
 	        # GM COMMENT
 	        # =========================================================
-	        if ($gm_comment!="") {
-	            $scores .= "<br><small>$gm_comment</small>";
+	        if ($gm_comment=='') {
+	            $gm_comment = 'no comment';
 	        }
+
+	        $scores .= "<div class='gm_comment' id='gm_comment__$beaten_by"."__$id_chal_beatenby'>$gm_comment</div>";
 
 
 	        # =========================================================
@@ -227,6 +231,7 @@
 						</div>
 						<div class='col-lg-3 beater_col'>
 							$approved
+							<div class='mt-2'>$pesan_untuk_gm_show</div>
 						</div>
 						<div class='col-lg-3 beater_col'>
 							Rewards: $scores
@@ -282,11 +287,14 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		let gm_auto_comment = 'Your skill level has been approved.';
+
 		$(".btn_set_reject").click(function(){
 			let id = $(this).prop("id");
 			let rid = id.split("__");
 			let tipe_btn = rid[0];
-			let id_chal_beatenby = rid[1];
+			let nickname = rid[1];
+			let id_chal_beatenby = rid[2];
 
 			let score_for_player = 0;
 			let gm_comment = '';
@@ -317,9 +325,10 @@
 				gm_comment = apresiasi;
 
 			}else if(tipe_btn=="btn_approve"){
-				let x = confirm(`Yakin untuk approve ${estimasi_poin} LP untuk ${nama_beater}?`); 
-				if(!x) return;
+				// let x = confirm(`Yakin untuk approve ${estimasi_poin} LP untuk ${nama_beater}?`); 
+				// if(!x) return;
 				score_for_player = estimasi_poin;
+				gm_comment = gm_auto_comment;
 			}else if(tipe_btn=="btn_undo"){
 				let x = confirm(`Yakin undo approve bukti challenge milik ${nama_beater}?`); 
 				if(!x) return;
@@ -338,19 +347,25 @@
 					let ra = a.split("__");
 					if(ra[0]=='sukses'){
 						if(tipe_btn!="btn_undo"){
-							$("#btn_approve__"+id_chal_beatenby).hide();
-							$("#btn_set__"+id_chal_beatenby).hide();
-							$("#btn_reject__"+id_chal_beatenby).hide();
-							$("#btn_undo__"+id_chal_beatenby).fadeIn();
-							$("#score_for_player__"+id_chal_beatenby).text(ra[2]);
+							$("#btn_approve__"+nickname+"__"+id_chal_beatenby).hide();
+							$("#btn_set__"+nickname+"__"+id_chal_beatenby).hide();
+							$("#btn_reject__"+nickname+"__"+id_chal_beatenby).hide();
+							$("#btn_undo__"+nickname+"__"+id_chal_beatenby).fadeIn();
+							$("#score_for_player__"+nickname+"__"+id_chal_beatenby).text(ra[2]);
+							$("#gm_comment__"+nickname).text(gm_comment);
+							$("#approved_by__"+id_chal_beatenby).hide();
 						}else{
 							if(estimasi_poin>0){
-								$("#btn_approve__"+id_chal_beatenby).fadeIn();
+								$("#btn_approve__"+nickname+"__"+id_chal_beatenby).fadeIn();
+							}else{
+								alert('estimasi_poin:'+estimasi_poin);
 							}
-							$("#btn_set__"+id_chal_beatenby).fadeIn();
-							$("#btn_reject__"+id_chal_beatenby).fadeIn();
-							$("#btn_undo__"+id_chal_beatenby).hide();
-							$("#score_for_player__"+id_chal_beatenby).html('<i>(belum ada)</i>');
+							$("#btn_set__"+nickname+"__"+id_chal_beatenby).fadeIn();
+							$("#btn_reject__"+nickname+"__"+id_chal_beatenby).fadeIn();
+							$("#btn_undo__"+nickname+"__"+id_chal_beatenby).hide();
+							$("#score_for_player__"+nickname+"__"+id_chal_beatenby).html('<i>(belum ada)</i>');
+							$("#gm_comment__"+nickname).text('not approved');
+							$("#btn_claim_rewards__"+id_chal_beatenby).hide();
 						}
 					}else{
 						alert(a)
@@ -462,5 +477,35 @@
 
 
 		})
+
+		$(".gm_comment").click(function(){
+			let gm_comment = $(this).text();
+			let tid = $(this).prop("id");
+			let rid = tid.split("__");
+			let nickname = rid[1];
+			let id_chal_beatenby = rid[2];
+
+			let new_comment = prompt('Komentar baru:',gm_comment);
+			if(!new_comment || new_comment.trim()==gm_comment.trim()){
+				return;
+			}
+
+			let link_ajax = "ajax/ajax_update_gm_comment.php"
+			+"?id_chal_beatenby="+id_chal_beatenby
+			+"&nickname="+nickname
+			+"&new_comment="+new_comment
+			+'';
+			$.ajax({
+				url:link_ajax,
+				success:function(a){
+					if(a.trim()=='sukses'){
+						$("#"+tid).text(new_comment);
+					}else{
+						alert(a)
+					}
+				}
+			})
+		})
+
 	})
 </script>
