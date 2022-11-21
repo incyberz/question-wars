@@ -56,7 +56,10 @@ a.nickname,
 a.nama_player,
 a.gender, 
 a.folder_uploads,
-b.room_player_point from tb_player a  
+a.status_profil,
+b.room_player_point,
+d.kelas 
+from tb_player a  
 join tb_room_player b on a.nickname=b.nickname 
 join tb_kelas_det c on a.nickname=c.nickname 
 join tb_kelas d on c.kelas=d.kelas 
@@ -95,6 +98,8 @@ while ($d=mysqli_fetch_assoc($q)) {
     $gender = $d['gender'];
     $nama_player = strtolower($d['nama_player']);
     $folder_uploads = $d['folder_uploads'];
+    $status_profil = $d['status_profil'];
+    $kelas = $d['kelas'];
     $room_player_point = $d['room_player_point'];
     $room_player_point_show = number_format($room_player_point, 0);
 
@@ -112,17 +117,32 @@ while ($d=mysqli_fetch_assoc($q)) {
     # ==================================================
     $img_accept_profil = "<img class='img_aksi' id='accept_profile__$nickname' src='assets/img/icons/accept.png' />";
     $img_reject_profil = "<img class='img_aksi' id='reject_profile__$nickname' src='assets/img/icons/reject.png' />";
-    $img_delete_profil = "<img class='img_aksi' id='delete_profile__$nickname' src='assets/img/icons/delete.png' />";
+    $img_delete_player = "<img class='img_aksi' id='delete_player__$nickname' src='assets/img/icons/delete.png' />";
     $img_set_p = "<img class='img_aksi' id='set_p__$nickname' src='assets/img/icons/set_p.png' />";
     $img_set_l = "<img class='img_aksi' id='set_l__$nickname' src='assets/img/icons/set_l.png' />";
     $img_login_as = "<img class='img_aksi' id='login_as__$nickname' src='assets/img/icons/login_as.png' />";
 
     $img_set_l_or_p = $gender=='' ? "<span id='set_gender__$nickname'>[ $img_set_l or $img_set_p ]</span>" : '';
+    $img_set_profil = $status_profil==1 ? $img_reject_profil : $img_accept_profil;
 
 
-
+    # ==================================================
+    # PLAYER LINKS
+    # ==================================================
     $player_links = '';
-    $player_links = $player_links=='' ? '<div class="text-center box_aksi">No links</div>' : $player_links;
+    $img_yt = '<img class="img_aksi" src="assets/img/icons/youtube.png">';
+    $s2 = "SELECT proof_link from tb_chal_beatenby where beaten_by='$nickname' and proof_link like 'http%' and proof_link like '%youtu%' ";
+    $q2 = mysqli_query($cn, $s2)or die('Tidak dapat mencari link untuk player ini.'.$s2);
+    while ($d2=mysqli_fetch_assoc($q2)) {
+        $player_links .= "<a href='$d2[proof_link]' target=_blank>$img_yt</a>";
+    }
+
+
+
+
+
+    $player_links = $player_links=='' ? 'No links' : $player_links;
+    $player_links = "<div class='text-center box_aksi'>$player_links</div>";
 
 
     # ==================================================
@@ -132,14 +152,14 @@ while ($d=mysqli_fetch_assoc($q)) {
 	<div class='text-center box_profil'>
 		<a href='about/?nickname=$nickname'><img src='uploads/$folder_uploads/_profile.jpg' class='big_profil'></a>
 		<br>
-		<div>$nama_player</div>
+		<div><b>$nama_player</b></div>
 		<div class='text-center'><small>$nickname ~ $room_player_point_show LP</small></div>
+		<div class='text-center'><small>$kelas</small></div>
 		<div class='text-center box_aksi'>
 			$img_login_as
 			$img_set_l_or_p
-			$img_accept_profil
-			$img_reject_profil
-			$img_delete_profil
+			$img_set_profil
+			$img_delete_player
 		</div>
 		$player_links
 	</div>";
@@ -148,7 +168,7 @@ while ($d=mysqli_fetch_assoc($q)) {
 
 <section id="list_player" class="gm">
 	<div class="container">
-		<?php echo "<pre>$debug_sql</pre>"; ?>
+		<?php //echo "<pre>$debug_sql</pre>";?>
 
 		<h3>Mahasiswa di Room <?=$nama_room?></h3>
 
@@ -285,12 +305,31 @@ while ($d=mysqli_fetch_assoc($q)) {
 			let rid = tid.split('__');
 			let aksi = rid[0];
 			let nickname = rid[1];
-			let link_ajax;
+			let link_ajax = `ajax/ajax_update_player.php?nickname=${nickname}`;
 
 			if(aksi=='set_p' || aksi=='set_l'){
 				let arr = aksi.split('_');
 				let gender = arr[1];
-				link_ajax = `ajax/ajax_update_player.php?nickname=${nickname}&field=gender&isi=${gender}`;
+				link_ajax += `&field=gender&isi=${gender}`;
+			}else if(aksi=='login_as'){
+				let yakin = confirm("Ingin login as "+nickname+"?");
+				if(!yakin) return;
+
+				location.replace("?logas&nickname="+nickname);
+				// window.open("?logas&nickname="+nickname);
+				return;
+
+			}else if(aksi=='accept_profile'){
+				let yakin = confirm("Terima profil ini sebagai profil yang layak untuk dijadikan transkrip nilai?");
+				if(!yakin) return;
+				link_ajax += `&field=status_profil&isi=1`;
+			}else if(aksi=='reject_profile'){
+				let yakin = confirm("Reject kelayakan profil ini?");
+				if(!yakin) return;
+				link_ajax += `&field=status_profil&isi=0`;
+			}else{
+				alert(`belum terdapat handler untuk aksi: ${aksi}`);
+				return;
 			}
 
 			$.ajax({
@@ -299,6 +338,10 @@ while ($d=mysqli_fetch_assoc($q)) {
 					if(a.trim()=='sukses'){
 						if(aksi=='set_p'||aksi=='set_l'){
 							$('#set_gender__'+nickname).fadeOut();
+						}else if(aksi=='accept_profile'){
+							$('#accept_profile__'+nickname).fadeOut();
+						}else if(aksi=='reject_profile'){
+							$('#reject_profile__'+nickname).fadeOut();
 						}else{
 							alert('AJAX sukses tanpa handler.')
 						}
