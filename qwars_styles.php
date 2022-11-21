@@ -23,7 +23,9 @@
   .debug{
     color: blue;
     background: red;
-    <?php if(!$dm) echo "display: none"; ?>
+    <?php if (!$dm) {
+        echo "display: none";
+    } ?>
   }
 
   .prototype{
@@ -99,16 +101,16 @@
   /* =========================================== */
 
   #blok_upload_profil{
-    display: grid;
-    grid-template-columns: auto 100px;
-    grid-gap: 10px;
-
+    /* display: grid; */
+    /* grid-template-columns: auto 100px; */
+    /* grid-gap: 10px; */
   }
 
-  .blok_inpu_profil{
+  .blok_input_profil{
     border: solid 1px #ccc;
     border-radius: 5px;
     padding: 5px;
+    margin-bottom: 10px;
   }
 
   #blok_contoh_profil{

@@ -1,60 +1,64 @@
 <section id="ubah_pass" class="player">
   <div class="container">
 
-  	<?php 
-  	if(isset($_POST['btn_upload_profil'])){
+  	<?php
+    $cprofil = '';
+  	if (file_exists($path_profile)) {
+  	    $cprofil = "<div class='wadah mb-2 text-center'><p>Profil saat ini:</p><img src='$path_profile' class='foto_profil'></div>";
+  	}
 
-  		if(!file_exists($path_folder)) mkdir($path_folder);
+  	if (isset($_POST['btn_upload_profil'])) {
+  	    if (!file_exists($path_folder)) {
+  	        mkdir($path_folder);
+  	    }
 
-  		if(file_exists($path_profile)){
-  			rename($path_profile, $path_profile."_".date("YmdHis").".jpg");
-  		}
+  	    if (file_exists($path_profile)) {
+  	        rename($path_profile, $path_profile."_".date("YmdHis").".jpg");
+  	    }
 
-  		$tmp_name = $_FILES['input_profil']['tmp_name'];
+  	    $tmp_name = $_FILES['input_profil']['tmp_name'];
 
-  		if(move_uploaded_file($tmp_name, $path_profile)){
+  	    if (move_uploaded_file($tmp_name, $path_profile)) {
+  	        # ========================================
+  	        # RESET PROFIL STATUS
+  	        # ========================================
+  	        $s = "UPDATE tb_player SET status_profil = NULL WHERE nickname = '$cnickname' ";
+  	        $q = mysqli_query($cn, $s) or die("Tidak bisa mengupdate values. ".mysqli_error($cn));
 
-        echo "<div class='alert alert-success'>
-          Upload berhasil.
-          <hr>
-          <a href='index.php'>Home</a> 
-        </div>";
-        exit;
 
-  		}else{
-        echo "<div class='alert alert-danger'>
-          Sepertinya kesalahan teknis pada pemindahan file upload.
-          <hr>
-          <a href='?ubah_profil'>Coba Lagi</a> 
-        </div>";
-        exit;
-      }
-
+  	        echo "<div class='alert alert-success'>Upload berhasil.<hr><a href='index.php'>Home</a></div>";
+  	        exit;
+  	    } else {
+  	        echo "<div class='alert alert-danger'>Sepertinya kesalahan teknis pada pemindahan file upload.<hr><a href='?ubah_profil'>Coba Lagi</a></div>";
+  	        exit;
+  	    }
   	}
 
 
 
   	?>
+
+	<?=$cprofil?>
+
   	<div class="alert alert-success">Silahkan upload dahulu foto profil! 
       <div>
-        <small>
           
           <ul>
             <li>Foto profil kamu <span style="color:darkred;">bersifat private</span> (tidak diperlihatkan ke player lain, kecuali sudah berteman)</li>
             <li>Gunakan gambar JPG berukuran antara 20 s.d 200kb, terlihat wajah, boleh formal, boleh pose bebas!</li>
-            <li>Gunakan tools 
+            <li>Jika perlu, gunakan tools 
             <a href="https://imagecompressor.11zon.com/en/image-compressor/compress-jpeg-to-200kb.php" target="_blank" style="color:darkblue;">Online Foto Resizer</a> untuk memperkecil foto kamu ke 200kb.</li>
+			<li>Jika profil sudah ada maka akan di-replace dan status-nya menjadi belum terverifikasi</li>
           </ul>
 
 
 
-        </small>
       </div>
     </div>
 
   	<form method="post" enctype="multipart/form-data">
   		<div class="form-group" id="blok_upload_profil">
-  			<div class="blok_inpu_profil">
+  			<div class="blok_input_profil">
   				<input type="file" name="input_profil" id="input_profil" accept="image/jpg, image/jpeg">
           <script type="text/javascript">
             let f = document.getElementById("input_profil");
@@ -73,6 +77,7 @@
   			<div>
   				<button class="btn btn-primary btn-block" name="btn_upload_profil">Upload</button>
   			</div>
+			<hr>
   			<div>
   				<span><small id="lihat_contoh">Lihat Contoh</small></span>
   				<div id="blok_contoh_profil">

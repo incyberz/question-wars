@@ -49,6 +49,7 @@ if ($cid_room!=0 and $cadmin_level!=0) {
           <li><a href="?presensi">Presensi Kuliah</a></li>
           <!-- <li><a href="about/">My Profile</a></li> -->
           <li><a href="?ubah_pass">Ubah Password</a></li>
+          <li><a href="?ubah_profil">Ubah Profil</a></li>
 
 
           <!-- =============================================== -->
