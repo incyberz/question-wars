@@ -20,7 +20,7 @@
       case 'jumlah_play_benar': m = `Sudah ada yang menjawab benar untuk soal ini sebanyak ${val} players`;break;
       case 'jumlah_play_salah': m = `Sudah ada yang menjawab salah untuk soal ini sebanyak ${val} players`;break;
       case 'jumlah_play_timed_out': m = `Ada yang kehabisan waktu dalam menjawab soal ini sebanyak ${val} players`;break;
-      case 'jumlah_reject': m = `Ada yang menganggap soal kamu tidak layak sebanyak ${val} players. Lihat saja alasan mereka! \n\nPerhatian! Jika ada 5 orang yang menganggap soal kamu tidak layak maka sistem akan mem-banned otomatis soal ini.`;break;
+      case 'my_reject_count': m = `Ada yang menganggap soal kamu tidak layak sebanyak ${val} players. Lihat saja alasan mereka! \n\nPerhatian! Jika ada 5 orang yang menganggap soal kamu tidak layak maka sistem akan mem-banned otomatis soal ini.`;break;
       default: m = ''; //zzz skipped
     }
     if(m!='') alert(m);

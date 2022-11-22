@@ -1,6 +1,12 @@
-<?php 
-$aksi = ''; if(isset($_GET['aksi'])) $aksi = $_GET['aksi'];
-$id_room_subject_selected = ''; if(isset($_GET['id_room_subject_selected'])) $id_room_subject_selected = $_GET['id_room_subject_selected'];
+<?php
+$aksi = '';
+if (isset($_GET['aksi'])) {
+    $aksi = $_GET['aksi'];
+}
+$id_room_subject_selected = '';
+if (isset($_GET['id_room_subject_selected'])) {
+    $id_room_subject_selected = $_GET['id_room_subject_selected'];
+}
 
 
 define('max_publish_per_sesi', 3);
@@ -20,18 +26,16 @@ $s = "SELECT
 	AND a.visibility_soal != -2 
 	";
 
-	// die("<pre>$s</pre>");
+// die("<pre>$s</pre>");
 
-$q = mysqli_query($cn,$s) or die(mysqli_error($cn));
+$q = mysqli_query($cn, $s) or die(mysqli_error($cn));
 while ($d = mysqli_fetch_assoc($q)) {
-	$id_room_subject = $d['id_room_subject'];
-	$status_soal = $d['status_soal'];
-	$visibility_soal = $d['visibility_soal'];
-
-
+    $id_room_subject = $d['id_room_subject'];
+    $status_soal = $d['status_soal'];
+    $visibility_soal = $d['visibility_soal'];
 }
 
-// $ket_jumlah_soal .= "<li>Total Soal: $total_soal</li>";
+// $ket_jumlah_soal .= "<li>Total Soal: $my_soal_total</li>";
 $ket_jumlah_soal .= '</ul>';
 
 ?> 
@@ -47,7 +51,7 @@ $ket_jumlah_soal .= '</ul>';
 		<!-- ======================================= -->
 		<!-- REKAP SOAL -->
 		<!-- ======================================= -->
-		<?php //include 'player_question_rekap.php'; ?>
+		<?php //include 'player_question_rekap.php';?>
 		<p>Room <?=$nama_room ?></p>
 
 

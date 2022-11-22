@@ -12,7 +12,7 @@ y.nama_subject,
 (SELECT count(1) from tb_soal_playedby WHERE id_soal=z.id_soal and dijawab_benar=1) as jumlah_benar,
 (SELECT count(1) from tb_soal_playedby WHERE id_soal=z.id_soal and dijawab_benar=0) as jumlah_salah,
 (SELECT count(1) from tb_soal_playedby WHERE id_soal=z.id_soal and dijawab_benar is null) as jumlah_timed_out,
-(SELECT count(1) from tb_soal_rejectby WHERE id_soal=z.id_soal) as jumlah_reject 
+(SELECT count(1) from tb_soal_rejectby WHERE id_soal=z.id_soal) as my_reject_count 
 
 
 

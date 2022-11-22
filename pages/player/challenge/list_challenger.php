@@ -14,7 +14,7 @@
 
 	$s = "SELECT 1 from tb_chal_beatenby where id_chal = $id_chal and approved_by is null";
 	$q = mysqli_query($cn, $s) or die("Error @chal_details#0. ".mysqli_error($cn));
-	$jumlah_chal_unver = mysqli_num_rows($q);
+	$my_chal_count_unver = mysqli_num_rows($q);
 
 	$o_by = $cadmin_level>=2 ? "approved_by " : " a.score_for_player desc ";
 
@@ -30,7 +30,7 @@
 	$q = mysqli_query($cn, $s) or die("Error @chal_details#1. ".mysqli_error($cn));
 	$jumlah_rows = mysqli_num_rows($q);
 
-	$limit_for_gm = $jumlah_chal_unver<10 ? 10 : $jumlah_chal_unver;
+	$limit_for_gm = $my_chal_count_unver<10 ? 10 : $my_chal_count_unver;
 	$limit = $cadmin_level==1 ? "	limit $limit_from, 10" : "	limit $limit_from, $limit_for_gm";
 	$s .= $limit;
 	// die($s);

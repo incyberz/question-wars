@@ -232,6 +232,10 @@
 
 
 
+
+  /* ========================================== */
+  /* LIST CHALLENGER */
+  /* ========================================== */
   .gm_comment{
     color:yellow;
     cursor: pointer;
@@ -241,4 +245,49 @@
   .gm_comment:hover{
     letter-spacing: .5px;
   }
+
+
+
+
+
+
+  /* ========================================== */
+  /* PLAYER DASHBOARD */
+  /* ========================================== */
+  .blok_dashboard a{
+		color: #8ff;
+		transition: .5s;
+	}
+
+	.blok_dashboard a:hover{
+		letter-spacing: 1px;
+		color: yellow;
+	}
+
+	.blok_progres{
+		margin: 7px 0 15px 0;
+
+	}
+
+	.blok_rank{
+		text-align: center;
+		background: pink;
+		padding: 10px 0;
+		color: darkblue;
+	}
+
+	.row_dashboard{
+		background: linear-gradient(#00ff0011, #ff00ff33);
+		padding: 10px;
+		cursor: pointer;
+	}
+
+	.row_dashboard:hover{
+		background: linear-gradient(#00ff0033, #00ff0055);
+
+	}
+
+	.blok_rank, .row_dashboard{
+		border: solid 1px #ccccff55;
+	}
 </style>

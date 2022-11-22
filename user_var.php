@@ -1,14 +1,32 @@
 <?php
 
-// echo "<pre>";
-// echo var_dump($_SESSION);
-// echo "</pre>";
+# ================================================
+# USER VAR VERSI 2.0
+# ================================================
+
+
+
+
+
+# ================================================
+# TOTAL PRESENSI SAAT INI
+# ================================================
+$s = "SELECT 1 from tb_room_subject where id_room='$cid_room' and date_open<='".date("Y-m-d")."'";
+$q = mysqli_query($cn, $s) or die("error @room_var_update. Tidak bisa menghitung total_presensi_saat_ini. ".mysqli_error($cn));
+$total_presensi_saat_ini = mysqli_num_rows($q);
+
+
+# ================================================
+# SESSION SECURITY
+# ================================================
 $cnickname = isset($_SESSION['nickname']) ? $_SESSION['nickname'] : die("session nickname belum terdefinisi.");
 $cadmin_level = isset($_SESSION['admin_level']) ? $_SESSION['admin_level'] : die("session admin_level belum terdefinisi.");
 
-
-if (!isset($cnickname) or $cnickname=="") {
-    die("Error @user_var #ec3. cnickname belum terdefinisi.");
+if ($cid_room=='' or $cid_room<1) {
+    die("Error @user_var. cid_room belum terdefinisi.");
+}
+if ($cnickname=='') {
+    die("Error @user_var. cnickname belum terdefinisi.");
 }
 if ($cadmin_level==0) {
     session_destroy();
@@ -16,30 +34,34 @@ if ($cadmin_level==0) {
 }
 
 
-# ================================================
-# GET DATA PLAYER + PRODI
-# ================================================
-$kelas = '';
-$prodi = '';
 
+# ================================================
+# INITIALIZING MY DATA
+# ================================================
+$rank_player = 0;
+$rank_player_in_kelas = 0;
+$rank_player_in_prodi = 0;
+
+
+
+
+
+
+
+# ================================================
+# GET DATA PLAYER + PROFIL
+# ================================================
 $s = "SELECT * FROM tb_player	WHERE nickname = '$cnickname'";
-$q = mysqli_query($cn, $s) or die("Error user_var. Tidak mengakses data player. cnickname: $cnickname".mysqli_error($cn));
+$q = mysqli_query($cn, $s) or die("Error @user_var. Tidak mengakses data player. cnickname: $cnickname".mysqli_error($cn));
 if (mysqli_num_rows($q)!=1) {
-    die("Error user_var. Row harus satu baris. cnickname: $cnickname");
+    die("Error @user_var. Row harus satu baris. cnickname: $cnickname");
 }
 
 $d = mysqli_fetch_assoc($q);
 
-// $admin_level  = $d['admin_level'];
-$nama_player  = $d['nama_player'];
-// $play_count  = $d['play_count'];
-// $last_play  = $d['last_play'];
-// $global_point  = $d['global_point'];
-// $status_aktif  = $d['status_aktif'];
-// $pass_hint  = $d['pass_hint'];
+// $nama_player  = $d['nama_player'];
 $folder_uploads  = $d['folder_uploads'];
-
-$cnama_player = ucwords(strtolower($nama_player));
+$cnama_player = ucwords(strtolower($d['nama_player']));
 $cjenis_user = $cadmin_level==2 ? 'GM' : 'Player';
 
 $path_folder = "uploads/$folder_uploads";
@@ -47,10 +69,15 @@ $path_profile = "$path_folder/_profile.jpg";
 $punya_profil = file_exists($path_profile) ? 1 : 0;
 
 
-if ($folder_uploads=='') {
-    // die('zzz');
-    $folder_uploads = $cnickname.'_'.date('ymdHis');
 
+
+# ================================================
+# FOLDER UPLOADS HANDLER
+# ================================================
+$kelas = '';
+$prodi = '';
+if ($folder_uploads=='') {
+    $folder_uploads = $cnickname.'_'.date('ymdHis');
     $path_folder = "uploads/$folder_uploads";
 
     if (!mkdir($path_folder)) {
@@ -65,6 +92,13 @@ if ($folder_uploads=='') {
     }
 }
 
+
+
+
+
+# ================================================
+# GET DATA KELAS + PRODI
+# ================================================
 if ($cadmin_level == 1) {
     $s = "SELECT b.kelas, c.prodi, d.nama_prodi   
 
@@ -74,18 +108,18 @@ if ($cadmin_level == 1) {
 	JOIN tb_prodi d ON c.prodi=d.prodi 
 	WHERE a.nickname = '$cnickname' 
 	";
-    $q = mysqli_query($cn, $s) or die("Error user_var Can't get data player. <hr>".mysqli_error($cn));
+    $q = mysqli_query($cn, $s) or die("Error @user_var Can't get data player. <hr>".mysqli_error($cn));
     $jumlah_baris = mysqli_num_rows($q);
-    if ($jumlah_baris) {
+    if ($jumlah_baris>1) {
+        die("Error @user_var. Nickname: $cnickname terdapat di dua grup-kelas. Segera lapor GM!");
+    } elseif ($jumlah_baris==1) {
         $d = mysqli_fetch_assoc($q);
         $kelas  = $d['kelas'];
         $prodi  = $d['prodi'];
-        $nama_prodi  = $d['nama_prodi'];
     }
 } elseif ($cadmin_level == 2) {
     $kelas  = "Kelas GM";
     $prodi  = "Prodi GM";
-    $nama_prodi  = "Nama Prodi GM";
 }
 
 
@@ -113,7 +147,7 @@ join tb_player c on b.room_creator=c.nickname
 where a.nickname = '$cnickname' 
 and b.status_room = 1
 ";
-$q = mysqli_query($cn, $s) or die("Error user_var: AVAILABLE ROOMS FOR THIS PLAYER<hr>".mysqli_error($cn));
+$q = mysqli_query($cn, $s) or die("Error @user_var: AVAILABLE ROOMS FOR THIS PLAYER<hr>".mysqli_error($cn));
 
 $i=0;
 while ($d = mysqli_fetch_assoc($q)) {
@@ -147,87 +181,19 @@ if (isset($cid_room) and $cid_room>0) {
 
 
 
-# ================================================
-# GLOBAL RANK :: ALL ROOM
-# ================================================
-$s = "SELECT * from tb_player WHERE status_aktif = 1 ";
-$so = " ORDER BY global_point DESC";
-$sp = "$s and admin_level=1 $so";
-$sg = "$s and (admin_level=2 or admin_level=9) $so";
-$qp = mysqli_query($cn, $sp) or die("Error #user_var. Can't get room data player");
-$qg = mysqli_query($cn, $sg) or die("Error #user_var. Can't get room data GM");
-if (mysqli_num_rows($qp)==0) {
-    die("Error @user_var. Peserta tidak boleh kosong.");
-}
-if (mysqli_num_rows($qg)==0) {
-    die("Error @user_var. GM tidak boleh kosong.");
-}
-$jumlah_player_global = mysqli_num_rows($qp);
-$jumlah_gm_global = mysqli_num_rows($qg);
-
-$player_global_rank = 0;
-while ($d = mysqli_fetch_assoc($qp)) {
-    $player_global_rank++;
-    if (strtoupper($d['nickname'])==strtoupper($cnickname)) {
-        break;
-    }
-}
-
-$player_global_rank_cap = "th";
-if ($player_global_rank % 10 == 1) {
-    $player_global_rank_cap = "st";
-}
-if ($player_global_rank % 10 == 2) {
-    $player_global_rank_cap = "nd";
-}
-if ($player_global_rank % 10 == 3) {
-    $player_global_rank_cap = "rd";
-}
-
-
-$gm_global_rank = 0;
-while ($d = mysqli_fetch_assoc($qg)) {
-    $gm_global_rank++;
-    if (strtoupper($d['nickname'])==strtoupper($cnickname)) {
-        break;
-    }
-}
-
-$gm_global_rank_cap = "th";
-if ($gm_global_rank % 10 == 1) {
-    $gm_global_rank_cap = "st";
-}
-if ($gm_global_rank % 10 == 2) {
-    $gm_global_rank_cap = "nd";
-}
-if ($gm_global_rank % 10 == 3) {
-    $gm_global_rank_cap = "rd";
-}
 
 
 # ================================================
 # LAST LOGIN
 # ================================================
-$s = "SELECT date_login FROM tb_login where nickname='$cnickname' order by date_login limit 2";
-$q = mysqli_query($cn, $s) or die("Error @user_var. Tidak bisa mengakses data login.");
-while ($d=mysqli_fetch_assoc($q)) {
-    $last_login = $d['date_login'];
-}
+// $s = "SELECT date_login FROM tb_login where nickname='$cnickname' order by date_login limit 2";
+// $q = mysqli_query($cn, $s) or die("Error @user_var. Tidak bisa mengakses data login.");
+// while ($d=mysqli_fetch_assoc($q)) {
+//     $last_login = $d['date_login'];
+// }
 
 
 
-
-# ================================================
-# TOTAL CHALLENGE POINT
-# ================================================
-$s = "SELECT sum(score_for_player) as my_chal_point from tb_chal_beatenby a 
-join tb_chal b on a.id_chal=b.id_chal 
-WHERE b.id_room='$cid_room' 
-and b.chal_visibility=1 
-and a.beaten_by='$cnickname'";
-$q = mysqli_query($cn, $s) or die("Error @user_var. Tidak bisa menghitung my_chal_point.");
-$d = mysqli_fetch_assoc($q);
-$my_chal_point = $d['my_chal_point'];
 
 
 
@@ -243,4 +209,91 @@ $q = mysqli_query($cn, $s) or die("Error @user_var. Tidak bisa mengambil data ni
 while ($d = mysqli_fetch_assoc($q)) {
     $uts_baak = $d['uts_baak'];
     $uas_baak = $d['uas_baak'];
+}
+
+
+
+
+
+# ================================================
+# MY RANK GLOBAL
+# ================================================
+$s = "SELECT a.nickname, b.nama_player, a.room_player_point from tb_room_player a 
+join tb_player b ON a.nickname = b.nickname 
+WHERE b.status_aktif = 1 
+and a.id_room = $cid_room 
+and b.admin_level = 1 
+ORDER BY a.room_player_point DESC, b.nama_player 
+";
+
+$q = mysqli_query($cn, $s) or die("Error #room_var1 Can't get room data");
+while ($d = mysqli_fetch_assoc($q)) {
+    $rank_player++;
+    if (strtoupper($d['nickname'])==strtoupper($cnickname)) {
+        break;
+    }
+}
+
+
+
+
+
+# ================================================
+# LIST FOR MY RANK GLOBAL
+# ================================================
+$i = 0;
+$q = mysqli_query($cn, $s) or die("Error #room_var2 Can't get room data");
+while ($d = mysqli_fetch_assoc($q)) {
+    $i++;
+    $list_player[$i] = ucwords(strtolower($d['nama_player'])) ;
+    $list_point[$i] = $d['room_player_point'];
+    if ($i==10 and $cadmin_level==1) {
+        break;
+    } //show only 10 for player
+}
+
+
+
+
+
+
+
+
+
+# ================================================
+# GET TMP USER VAR
+# ================================================
+$s = "SELECT * FROM tmp_user_var WHERE nickname = '$cnickname' and id_room=$cid_room";
+$q = mysqli_query($cn, $s) or die("Error @user_var. Tidak mengakses tmp_user_var. ".mysqli_error($cn));
+if (mysqli_num_rows($q)==1) {
+    $d = mysqli_fetch_assoc($q);
+
+    $selisih_detik = strtotime(date('Y-m-d H:i:s')) - strtotime($d['last_update']);
+
+    if ($selisih_detik>3600) {
+        include 'user_var_updated.php';
+    } else {
+        $rank_player = $d['rank_player'];
+        $rank_player_in_kelas = $d['rank_player_in_kelas'];
+        $rank_player_in_prodi = $d['rank_player_in_prodi'];
+        $my_presensi = $d['my_presensi'];
+        $my_soal_total = $d['my_soal_total'];
+        $my_soal_publish = $d['my_soal_publish'];
+        $my_soal_banned = $d['my_soal_banned'];
+        $my_soal_suspend = $d['my_soal_suspend'];
+        $my_soal_new = $d['my_soal_new'];
+        $my_chal_count = $d['my_chal_count'];
+        $my_chal_count_claimed = $d['my_chal_count_claimed'];
+        $my_chal_count_unclaim = $d['my_chal_count_unclaim'];
+        $my_chal_count_unver = $d['my_chal_count_unver'];
+        $my_chal_point_sum = $d['my_chal_point_sum'];
+        $my_play_count = $d['my_play_count'];
+        $my_play_count_timed_out = $d['my_play_count_timed_out'];
+        $my_play_count_benar = $d['my_play_count_benar'];
+        $my_play_count_salah = $d['my_play_count_salah'];
+        $my_reject_count = $d['my_reject_count'];
+        $my_daily_login_count = $d['my_daily_login_count'];
+    }
+} else {
+    include 'user_var_updated.php';
 }

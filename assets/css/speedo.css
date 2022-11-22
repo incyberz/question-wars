@@ -1,0 +1,117 @@
+:root {
+    --tlt-br-cnt: 50;
+    --i: 0;
+}
+
+/** {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+
+    background: hsl(216, 28%, 7%);;
+
+    overflow: hidden;
+
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}*/
+
+.speedo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+}
+
+.speedo i {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: rotate(calc(45deg + calc(calc(360deg / var(--tlt-br-cnt)) * var(--i))));
+}
+
+.speedo i::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: hsla(0, 0%,100%, 12%);;
+    width: 3px;
+    height: 7px; /*zzz*/
+    border-radius: 999rem;
+    transform: rotate(-45deg);
+    transform-origin: top;
+    opacity: 0;
+
+    animation: barCreationAnimation 100ms ease forwards;
+    animation-delay: calc(var(--i) * 15ms);
+}
+
+.speedo .selected1::after {
+    background: hsl(130, 100%, 50%);
+    box-shadow: 0 0 1px hsl(130, 100%, 50%),
+                0 0 3px hsl(130, 100%, 30%),
+                0 0 4px hsl(130, 100%, 10%);
+}
+
+.speedo .selected2::after {
+    background: hsl(64, 100%, 50%);
+    box-shadow: 0 0 1px hsl(64, 100%, 50%),
+                0 0 3px hsl(64, 100%, 30%),
+                0 0 4px hsl(64, 100%, 10%);
+}
+
+.speedo .selected3::after {
+    background: hsl(8, 100%, 50%);
+    box-shadow: 0 0 1px hsl(8, 100%, 50%),
+                0 0 3px hsl(8, 100%, 30%),
+                0 0 4px hsl(8, 100%, 10%);
+}
+
+.percent-text {
+    /*font-size: 3rem;*/
+    animation: barCreationAnimation 500ms ease forwards;
+    animation-delay: calc(var(--tlt-br-cnt) * 15ms / 2);
+}
+
+.text1{
+    color: hsl(130, 100%, 50%);
+    text-shadow: 0 0 1px hsl(130, 100%, 50%),
+                    0 0 3px hsl(130, 100%, 30%),
+                    0 0 4px hsl(130, 100%, 10%);
+    opacity: 0;
+}
+
+.text2{
+    color: hsl(64, 100%, 50%);
+    text-shadow: 0 0 1px hsl(64, 100%, 50%),
+                0 0 3px hsl(64, 100%, 30%),
+                0 0 4px hsl(64, 100%, 10%);
+    opacity: 0;
+}
+.text3{
+    color: hsl(8, 100%, 50%);
+    text-shadow: 0 0 1px hsl(8, 100%, 50%),
+    0 0 3px hsl(8, 100%, 30%),
+    0 0 4px hsl(8, 100%, 10%);
+    opacity: 0;
+}
+
+@keyframes barCreationAnimation {
+    from {opacity: 0}
+    to {opacity: 1}
+}
