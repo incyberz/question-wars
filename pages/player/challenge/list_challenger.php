@@ -183,7 +183,9 @@
 	            $gm_comment = 'no comment';
 	        }
 
-	        $scores .= "<div class='gm_comment' id='gm_comment__$beaten_by"."__$id_chal_beatenby'>$gm_comment</div>";
+	        if ($cadmin_level>1) {
+	            $scores .= "<div class='gm_comment' id='gm_comment__$beaten_by"."__$id_chal_beatenby'>$gm_comment</div>";
+	        }
 
 
 	        # =========================================================
