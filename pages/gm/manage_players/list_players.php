@@ -130,7 +130,7 @@ while ($d=mysqli_fetch_assoc($q)) {
     # PLAYER LINKS
     # ==================================================
     $player_links = '';
-    $img_yt = '<img class="img_aksi" src="assets/img/icons/youtube.png">';
+    $img_yt = '<img height=25px src="assets/img/icons/youtube.png">';
     $s2 = "SELECT proof_link from tb_chal_beatenby where beaten_by='$nickname' and proof_link like 'http%' and proof_link like '%youtu%' ";
     $q2 = mysqli_query($cn, $s2)or die('Tidak dapat mencari link untuk player ini.'.$s2);
     while ($d2=mysqli_fetch_assoc($q2)) {
@@ -320,8 +320,8 @@ while ($d=mysqli_fetch_assoc($q)) {
 				return;
 
 			}else if(aksi=='accept_profile'){
-				let yakin = confirm("Terima profil ini sebagai profil yang layak untuk dijadikan transkrip nilai?");
-				if(!yakin) return;
+				// let yakin = confirm("Terima profil ini sebagai profil yang layak untuk dijadikan transkrip nilai?");
+				// if(!yakin) return;
 				link_ajax += `&field=status_profil&isi=1`;
 			}else if(aksi=='reject_profile'){
 				let yakin = confirm("Reject kelayakan profil ini?");

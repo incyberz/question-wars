@@ -55,7 +55,7 @@ $ket['chal_visibility'] = "<div>$btn_publish</div><small>1: Published <br>0: Sus
 $ket['input_harus_mengandung'] = 'Link input wajib mengandung salah satu keyword. Pisahkan dengan double-titik-koma jika lebih dari 1 keyword';
 $ket['input_tidak_mengandung'] = 'Link input tidak boleh mengandung salah satu keyword. Pisahkan dengan double-titik-koma jika lebih dari 1 keyword';
 $ket['tanggal_penutupan'] = 'Player tidak bisa submit challenge saat melebihi tanggal penutupan. <small><div>Format: YYYY-MM-DD HH:NN:SS</div><div>Contoh: 2022-10-15 08:30:00</div></small>';
-$ket['chal_status'] = '1: diperlihatkan; <br>0: disembunyikan';
+$ket['chal_visibility'] = '1: diperlihatkan; <br>0: disembunyikan';
 $ket['chal_desc'] = "<a href='?editdeschal&id_chal=$id_chal' class='link_btn btn btn-success btn-sm'>Ubah Deskripsi</a>";
 $ket['batas_ontime'] = "Player mendapatkan speed-point-max jika tidak melebihi batas ontime.<br>Contoh: 2022-11-15 18:30:00";
 
