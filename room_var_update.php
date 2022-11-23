@@ -190,10 +190,11 @@ if (mysqli_num_rows($q)>0) {
 # MAX CHAL POINT
 # ================================================
 $max_chal_point=0;
-$s = "SELECT (SELECT sum(score_for_player) from tb_chal_beatenby WHERE beaten_by=a.nickname) as max_chal_point
+$s = "SELECT (SELECT sum(z.score_for_player) from tb_chal_beatenby z 
+JOIN tb_chal y on z.id_chal=y.id_chal 
+WHERE z.beaten_by=a.nickname and y.id_room='$cid_room') as max_chal_point
 from tb_room_player a JOIN tb_room b on a.id_room=b.id_room 
-WHERE b.id_room='$cid_room' order by max_chal_point desc limit 1; 
-";
+WHERE b.id_room='$cid_room' order by max_chal_point desc limit 1";
 $q = mysqli_query($cn, $s) or die("Error @room_var_update. Tidak bisa menghitung max_chal_point. ".mysqli_error($cn));
 $d = mysqli_fetch_assoc($q);
 $max_chal_point = $d['max_chal_point'];

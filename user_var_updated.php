@@ -440,5 +440,5 @@ my_daily_login_count='$my_daily_login_count'
 
 ";
 $q = mysqli_query($cn, $s) or die("Error @user_var_update_update. Tidak bisa menyimpan setingan baru. ".mysqli_error($cn));
-echo "<h1>Room Update Success</h1>";
+echo "<h1>User Vars Update Success. Please wait system will auto refresh!</h1>";
 echo '<script>location.reload()</script>';
