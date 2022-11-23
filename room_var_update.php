@@ -261,4 +261,5 @@ max_chal_point='$max_chal_point'
 
 ";
 $q = mysqli_query($cn, $s) or die("Error @room_var_update_update. Tidak bisa menyimpan setingan baru. ".mysqli_error($cn));
-echo "<h1>Room Update Success</h1>";//ZZZ DEBUG
+echo "<h1>Room Update Success</h1>";
+echo '<script>location.reload()</script>';

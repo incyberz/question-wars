@@ -23,7 +23,7 @@ $cnickname = isset($_SESSION['nickname']) ? $_SESSION['nickname'] : die("session
 $cadmin_level = isset($_SESSION['admin_level']) ? $_SESSION['admin_level'] : die("session admin_level belum terdefinisi.");
 
 if ($cid_room=='' or $cid_room<1) {
-    die("Error @user_var. cid_room belum terdefinisi.");
+    // die("Error @user_var. cid_room belum terdefinisi.");
 }
 if ($cnickname=='') {
     die("Error @user_var. cnickname belum terdefinisi.");
