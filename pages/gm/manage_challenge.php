@@ -42,6 +42,7 @@ while ($d=mysqli_fetch_assoc($q)) {
 	<div class="container">
         <h3>Manage Challenge</h3>
         <p>Berikut adalah beberapa challenge praktikum yang saya buat di Room <?=$nama_room?></p>
+        <div class="text-right mb-2"><a class="link_btn btn btn-success btn-sm" href="?addchal">Tambah Challenge</a></div>
         <table class="table">
             <tr>
                 <td>No</td>

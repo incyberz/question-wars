@@ -290,4 +290,9 @@
 	.blok_rank, .row_dashboard{
 		border: solid 1px #ccccff55;
 	}
+
+
+
+  .link_btn{color:white !important} 
+  code{font-size:100%}
 </style>

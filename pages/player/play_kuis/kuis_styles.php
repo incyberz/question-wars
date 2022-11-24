@@ -201,7 +201,9 @@
 		font-size: 8pt;
 		padding: 10px;
 		background: red;
-		<?php if(!$dm) echo "display: none;"; ?>
+		<?php if (!$dm) {
+		    echo "display: none;";
+		} ?>
 	}
 
 
@@ -247,6 +249,10 @@
 	#poin_akurasi{
 		color: #22f;
 		font-size: 16pt;
+	}
+
+	#sec_kuis_play a {
+		color: purple;
 	}
 
 

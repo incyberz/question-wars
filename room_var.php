@@ -1,6 +1,5 @@
 <?php
 
-if ($cid_room>0) {
     # ================================================
     # ROOM_VARS
     # ================================================
@@ -139,4 +138,3 @@ if ($cid_room>0) {
     }
 
     // echo "tanggal_update: $tanggal_update need_update_room_var: $need_update_room_var ";
-}

@@ -35,7 +35,7 @@ if ($row=='') {
 
 ?>
 
-<style>th{color:yellow} #edit_challenge .link_btn{color:white !important} code{font-size:100%}</style>
+<style>th{color:yellow} #edit_challenge </style>
 <section id="edit_challenge" class="gm">
 	<div class="container">
         <h3>Manage Skill Level</h3>

@@ -1,4 +1,6 @@
-<?php if(!isset($_SESSION)) session_start(); ?>
+<?php if (!isset($_SESSION)) {
+    session_start();
+} ?>
 <link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap/css/bootstrap.min.css">
 <script src="assets/vendor/jquery/jquery.min.js"></script>
 <style>body{margin: 0; padding: 0; overflow: hidden; background: linear-gradient(#505,#202);}</style>
@@ -6,56 +8,62 @@
 	<h1>Reset Password</h1>
 	<hr>
 
-	<?php 
+	<?php
 
-	if(isset($_GET['confirm'])){
+    if (isset($_GET['confirm'])) {
+        $cnickname = isset($_SESSION['nickname']) ? $_SESSION['nickname'] : '';
+        $cadmin_level = isset($_SESSION['admin_level']) ? $_SESSION['admin_level'] : 0;
 
-		$cnickname = isset($_SESSION['nickname']) ? $_SESSION['nickname'] : '';
-		$cadmin_level = isset($_SESSION['admin_level']) ? $_SESSION['admin_level'] : 0;
-
-		// echo "<pre>";
-		// var_dump($_SESSION);
-		// echo "</pre>";
-
-
-		if($cnickname!='abi' and $cadmin_level<2) die('Maaf, hanya GM yang berhak mengakses halaman ini.<hr><a href="https://ikmiapp.web.id/qwars" target="_blank">Login</a>');
-
-		include 'config.php';
-		$nickname = isset($_GET['nickname']) ? $_GET['nickname'] : '';
-		$no_wa = isset($_GET['no_wa']) ? $_GET['no_wa'] : '';
-		if($nickname=='') die('Index nickname masih kosong.');
-		if($no_wa=='') die('Index no_wa masih kosong.');
-
-		$s = "UPDATE tb_player SET password='$nickname',no_wa='$no_wa' where nickname='$nickname'";
-		$q = mysqli_query($cn,$s) or die(mysqli_error($cn));
-
-		$saat_ini = date('D, Y-m-d H:i:s');
-		echo "$s<hr>Sukses<hr><a href='https://api.whatsapp.com/send?phone=62$no_wa&text=Noreply: password Anda telah berhasil direset ke nim: $nickname [QWars Gamified Systems, $saat_ini]'>Reply</a>";
+        // echo "<pre>";
+        // var_dump($_SESSION);
+        // echo "</pre>";
 
 
+        if ($cnickname!='abi' and $cadmin_level<2) {
+            die('Maaf, hanya GM yang berhak mengakses halaman ini.<hr><a href="https://qwars.online" target="_blank">Login</a>');
+        }
 
-		exit();
-	}
+        include 'config.php';
+        $nickname = isset($_GET['nickname']) ? $_GET['nickname'] : '';
+        $no_wa = isset($_GET['no_wa']) ? $_GET['no_wa'] : '';
+        if ($nickname=='') {
+            die('Index nickname masih kosong.');
+        }
+        if ($no_wa=='') {
+            die('Index no_wa masih kosong.');
+        }
+
+        $s = "UPDATE tb_player SET password='$nickname',no_wa='$no_wa' where nickname='$nickname'";
+        $q = mysqli_query($cn, $s) or die(mysqli_error($cn));
+
+        $saat_ini = date('D, Y-m-d H:i:s');
+        echo "$s<hr>Sukses<hr><a href='https://api.whatsapp.com/send?phone=62$no_wa&text=Noreply: password Anda telah berhasil direset ke nim: $nickname [QWars Gamified Systems, $saat_ini]'>Reply</a>";
 
 
 
-	$wa_dosen = '6287729007318'; //zzz
-	$nickname = isset($_GET['nickname']) ? $_GET['nickname'] : die('Halaman ini tidak bisa diakses secara langsung.');
+        exit();
+    }
 
-	$a = (rand() % 10)+1;
-	$b = (rand() % 11)+1;
-	$c = $a + $b;
 
-	if(isset($_POST['c2'])){ 
 
-		$c = $_POST['c'];
-		$c2 = $_POST['c2'];
-		$nickname = $_POST['nickname'];
-		$no_wa = $_POST['no_wa'];
+    $wa_dosen = '6287729007318'; //zzz
+$nickname = isset($_GET['nickname']) ? $_GET['nickname'] : die('Halaman ini tidak bisa diakses secara langsung.');
 
-		if($c!=$c2) die("Capthca tidak sesuai. Silahkan <a href='?resetpass&nickname=$nickname'>coba lagi!</a>");
+$a = (rand() % 10)+1;
+$b = (rand() % 11)+1;
+$c = $a + $b;
 
-		?>
+if (isset($_POST['c2'])) {
+    $c = $_POST['c'];
+    $c2 = $_POST['c2'];
+    $nickname = $_POST['nickname'];
+    $no_wa = $_POST['no_wa'];
+
+    if ($c!=$c2) {
+        die("Capthca tidak sesuai. Silahkan <a href='?resetpass&nickname=$nickname'>coba lagi!</a>");
+    }
+
+    ?>
 
 		<div>Tahapan yang harus Anda ikuti:</div>
 		<ul>
@@ -82,7 +90,7 @@
 		
 		</div>
 		
-	<?php }else{ ?>
+	<?php } else { ?>
 
 			<p>Untuk reset password nim: <code style="color: darkblue;"><?=$nickname ?></code> silahkan masukan no whatsApp dan capthca berikut!</p>
 			<form method="post">
@@ -123,7 +131,7 @@
 				$('#cb_nim_saya').prop('disabled',false);
 
 				let nickname = $('#nickname').text();
-				let link_reset = encodeURIComponent(`https://ikmiapp.web.id/qwars/?resetpass&confirm=1&nickname=${nickname}&no_wa=${no_wa}`)
+				let link_reset = encodeURIComponent(`https://qwars.online/?resetpass&confirm=1&nickname=${nickname}&no_wa=${no_wa}`)
 
 				$('#link_wa').prop('href',`https://api.whatsapp.com/send?phone=6287729007318&text=${pernyataan}%0a%0a${link_reset}`)				
 

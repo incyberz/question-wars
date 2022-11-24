@@ -1,6 +1,8 @@
-<?php 
+<?php
 $change_to_id_room = '';
-if(isset($_GET['id_room'])) $change_to_id_room = $_GET['id_room'];
+if (isset($_GET['id_room'])) {
+    $change_to_id_room = $_GET['id_room'];
+}
 ?>
 <input type="hidden" id="change_to_id_room" value="<?=$change_to_id_room?>">
 <section id="change_room" class="player">
@@ -11,7 +13,7 @@ if(isset($_GET['id_room'])) $change_to_id_room = $_GET['id_room'];
         &nbsp;
       </div>
       <div class="col-lg-4">
-        <h4>Hello <?=$nama_player?>, wanna to another room?</h4>
+        <h4>Hello <?=$cnama_player?>, wanna to another room?</h4>
         <p>Choose it!</p>
         <hr>
         <form method="post" action="?">

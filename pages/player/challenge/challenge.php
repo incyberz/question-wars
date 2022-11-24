@@ -3,7 +3,9 @@
 		<h3>Challenges for You!</h3>
 		<p>Challenge adalah quest khusus dari GM di bidang praktikum komputer, kerja kelompok, atau praktik lapangan. Challenge menghasilkan learning point yang besar sesuai dengan tingkat kesulitan dan kedalaman materi.</p>
 		
-		<?php if($cadmin_level==2 or $cadmin_level==9) echo "<div class='text-right m-2'><a href='?addchal' class='btn btn-primary btn-sm'>Add Challenge</a></div>"; ?>
+		<?php if ($cadmin_level==2 or $cadmin_level==9) {
+		    echo "<div class='text-right mb-2'><a href='?managechal' class='btn btn-primary btn-sm'>Manage Chal</a> <a href='?addchal' class='btn btn-success btn-sm'>Add Challenge</a></div>";
+		} ?>
 		
 		<style type="text/css">
 			#chal_list ol{padding: 0 0 0 20px;}
@@ -16,14 +18,14 @@
 						Level
 						<select id="chal_level_filter" class="filter form-control">
 							<option value="all">--All--</option>
-							<?php 
-							$s = "SELECT * from tb_chal_level order by rank_level";
-							$q = mysqli_query($cn,$s) or die("Tidak bisa mengakses data challenge level");
-							while($d=mysqli_fetch_assoc($q)){
-								$chal_level = ucwords($d['chal_level']);
-								echo "<option>$chal_level</option>";
-							}
-							?>
+							<?php
+		                    $s = "SELECT * from tb_chal_level order by rank_level";
+		$q = mysqli_query($cn, $s) or die("Tidak bisa mengakses data challenge level");
+		while ($d=mysqli_fetch_assoc($q)) {
+		    $chal_level = ucwords($d['chal_level']);
+		    echo "<option>$chal_level</option>";
+		}
+		?>
 						</select>
 
 					</div>

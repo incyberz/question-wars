@@ -1,4 +1,4 @@
-<?php 
+<?php
 # =====================================================
 # MAIN INDEX
 # =====================================================
@@ -13,9 +13,9 @@ $proto = '<p class="prototype">Fitur masih dalam tahap pengembangan. [Frontend O
 // $pass_main = isset($_GET['pass_main']) ? $_GET['pass_main'] : '';
 // if($pass_main=='') $ket_maintenance = "Maintenance fitur reject soal dan banned soal.";
 
-// echo "<pre>"; 
+// echo "<pre>";
 // var_dump($_SESSION);
-// echo "</pre>"; 
+// echo "</pre>";
 
 
 
@@ -44,21 +44,23 @@ include "config.php";
 # SESSION VARIABLES
 # =====================================================
 $password_sama = 0;
-if (isset($_SESSION['nickname'])){ 
-  $is_login = 1;
-  $cnickname = $_SESSION['nickname'];
-  $cadmin_level = $_SESSION['admin_level'];
+if (isset($_SESSION['nickname'])) {
+    $is_login = 1;
+    $cnickname = $_SESSION['nickname'];
+    $cadmin_level = $_SESSION['admin_level'];
 
-  # ========================================================================
-  # WAJIB UBAH DEFAULT PASSWORD
-  # ========================================================================
-  include 'pages/player/ubah_password/get_current_pass.php';
-  if ($cnickname == $cpassword) $password_sama=1;
-  // echo "<h1>cnickname:$cnickname cpassword:$cpassword</h1>";
+    # ========================================================================
+    # WAJIB UBAH DEFAULT PASSWORD
+    # ========================================================================
+    include 'pages/player/ubah_password/get_current_pass.php';
+    if ($cnickname == $cpassword) {
+        $password_sama=1;
+    }
+    // echo "<h1>cnickname:$cnickname cpassword:$cpassword</h1>";
 }
 
-if (isset($_SESSION['id_room'])){
-  $cid_room = $_SESSION['id_room'];
+if (isset($_SESSION['id_room'])) {
+    $cid_room = $_SESSION['id_room'];
 }
 
 
@@ -67,21 +69,25 @@ if (isset($_SESSION['id_room'])){
 # MANAGE URI
 # =====================================================
 $a = $_SERVER['REQUEST_URI'];
-if (!strpos($a, "?")) $a.="?";
-if (!strpos($a, "&")) $a.="&";
+if (!strpos($a, "?")) {
+    $a.="?";
+}
+if (!strpos($a, "&")) {
+    $a.="&";
+}
 
 $b = explode("?", $a);
 $c = explode("&", $b[1]);
 $parameter = $c[0];
 
-if($parameter=='resetpass'){
-  include 'pages/player/login_system/reset_password.php';
-  exit();
+if ($parameter=='resetpass') {
+    include 'pages/player/login_system/reset_password.php';
+    exit();
 }
 
-if($parameter=='unlogas'){
-  include 'pages/gm/login_as/unlog_as.php';
-  exit();
+if ($parameter=='unlogas') {
+    include 'pages/gm/login_as/unlog_as.php';
+    exit();
 }
 
 
@@ -89,35 +95,39 @@ if($parameter=='unlogas'){
 # =====================================================
 # REALTIME COUNTING FOR HOME
 # =====================================================
-if(!$is_login) include "pages/realtime_counting.php";
+if (!$is_login) {
+    include "pages/realtime_counting.php";
+}
 
 
 # =====================================================
 # LOGOUT
 # =====================================================
-if($parameter=="logout"){
-  include 'pages/player/login_system/logout.php';
-  exit();
+if ($parameter=="logout") {
+    include 'pages/player/login_system/logout.php';
+    exit();
 }
 
 
 # =====================================================
 # LOGIN PROCESS
 # =====================================================
-if(isset($_POST['btn_submit_login'])) include 'pages/player/login_system/login_process.php';
-  
+if (isset($_POST['btn_submit_login'])) {
+    include 'pages/player/login_system/login_process.php';
+}
+
 
 
 # =====================================================
 # SUBMIT ID-ROOM
 # =====================================================
 if (isset($_POST['btn_change_room'])) {
-  $_SESSION['id_room'] = $_POST['id_room_selected'];
-  $cid_room = $_POST['id_room_selected'];
+    $_SESSION['id_room'] = $_POST['id_room_selected'];
+    $cid_room = $_POST['id_room_selected'];
 }
 if (isset($_POST['btn_set_first_room'])) {
-  $_SESSION['id_room'] = $_POST['id_room'];
-  $cid_room = $_POST['id_room'];
+    $_SESSION['id_room'] = $_POST['id_room'];
+    $cid_room = $_POST['id_room'];
 }
 
 
@@ -125,15 +135,15 @@ if (isset($_POST['btn_set_first_room'])) {
 # =====================================================
 # PUBLIC THE BEST TOP 10
 # =====================================================
-if($is_login==0){
-  $s = "SELECT nama_player, global_point from tb_player where status_aktif=1 and admin_level=1 order by global_point desc limit 10";
-  $q = mysqli_query($cn, $s) or die("Error @index. Tidak dapat mengakses data list-player. ".mysqli_error($cn));
-  $i=0;
-  while ($d=mysqli_fetch_assoc($q)) {
-    $i++;
-    $list_player[$i] = ucwords(strtolower($d['nama_player']));
-    $list_point[$i] = $d['global_point'];
-  }
+if ($is_login==0) {
+    $s = "SELECT nama_player, global_point from tb_player where status_aktif=1 and admin_level=1 order by global_point desc limit 10";
+    $q = mysqli_query($cn, $s) or die("Error @index. Tidak dapat mengakses data list-player. ".mysqli_error($cn));
+    $i=0;
+    while ($d=mysqli_fetch_assoc($q)) {
+        $i++;
+        $list_player[$i] = ucwords(strtolower($d['nama_player']));
+        $list_point[$i] = $d['global_point'];
+    }
 }
 
 
@@ -172,95 +182,92 @@ if($is_login==0){
 
 <body>
 
-  <?php 
+  <?php
 
-  if($is_login){
-    # ===========================================================
-    # GET TMP_USER_VAR
-    # ===========================================================
-    include 'user_var.php';
-    include 'room_var.php';
-    // include 'var_sesi_mk.php';
-    include 'pages/player/update_last_activity/update_last_activity.php';
-  }elseif($parameter=='login'){
-    include 'pages/visitor/login/login.php';
-    exit();
+  if ($is_login) {
+      # ===========================================================
+      # GET TMP_USER_VAR
+      # ===========================================================
+
+      include 'user_data.php';
+      if ($cid_room>0) {
+          include 'user_var.php';
+          include 'room_var.php';
+      }
+      // include 'var_sesi_mk.php';
+      include 'pages/player/update_last_activity/update_last_activity.php';
+  } elseif ($parameter=='login') {
+      include 'pages/visitor/login/login.php';
+      exit();
   }
 
 
   include "pages/header.php";
-  ?>
+?>
 
   <main id="main">
 
 
-    <?php 
-    if($ket_maintenance!="") {include "maintenance.php"; exit();}
-    if ($is_login) {
-
-
-
-
+    <?php
+  if ($ket_maintenance!="") {
+      include "maintenance.php";
+      exit();
+  }
+  if ($is_login) {
       # ===========================================================
       # JIKA BELUM PUNYA FOTO PROFIL
       # ===========================================================
-      if(!$punya_profil or $parameter=="ubah_profil"){
-        # ===========================================================
-        # JIKA PROFIL BELUM ADA ATAU REQUEST UBAH PROFIL
-        # ===========================================================
-        include 'pages/player/update_profile/upload_profil.php';
-        exit;
+      if (!$punya_profil or $parameter=="ubah_profil") {
+          # ===========================================================
+          # JIKA PROFIL BELUM ADA ATAU REQUEST UBAH PROFIL
+          # ===========================================================
+          include 'pages/player/update_profile/upload_profil.php';
+          exit;
       }
 
 
 
 
-      if($cid_room==0){
-        # =====================================================
-        # BELUM MEMILIH ROOM
-        # =====================================================
+      if ($cid_room==0) {
+          # =====================================================
+          # BELUM MEMILIH ROOM
+          # =====================================================
 
-        if($parameter=="addroom"){
-          include "pages/gm/room_add.php";
-        }else{
-          include "pages/set_room.php";
-        }
-
-      }else{
-        # =====================================================
-        # ID-ROOM SUDAH TERPILIH :: GO ROUTING
-        # =====================================================
-
+          if ($parameter=="addroom") {
+              include "pages/gm/room_add.php";
+          } else {
+              include "pages/set_room.php";
+          }
+      } else {
+          # =====================================================
+          # ID-ROOM SUDAH TERPILIH :: GO ROUTING
+          # =====================================================
 
 
 
 
 
-        # ===========================================================
-        # JIKA PASSWORD MASIH DEFAULT
-        # ===========================================================
-        if($password_sama){
-          include 'pages/player/ubah_password/ubah_pass.php';
+
+          # ===========================================================
+          # JIKA PASSWORD MASIH DEFAULT
+          # ===========================================================
+          if ($password_sama) {
+              include 'pages/player/ubah_password/ubah_pass.php';
           // exit();
-        }else{
-          # =====================================================
-          # ALL USER ROUTING
-          # =====================================================
-          include "routing.php";
-          # =====================================================
-        }
-
-
-
-
+          } else {
+              # =====================================================
+              # ALL USER ROUTING
+              # =====================================================
+              include "routing.php";
+              # =====================================================
+          }
       }
-
-    }else{
+  } else {
       # =====================================================
       # NOT LOGIN
       include "pages/visitor/visitor.php";
-    }
-    ?>
+  }
+?>
   </main>
 
   <?php include "pages/footer.php"; ?>

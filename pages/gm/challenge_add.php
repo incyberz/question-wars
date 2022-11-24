@@ -1,23 +1,30 @@
 <?php
-if($cadmin_level==0 or $cadmin_level==1) die("Maaf, fitur ini khusus untuk GM");
+if ($cadmin_level==0 or $cadmin_level==1) {
+    die("Maaf, fitur ini khusus untuk GM");
+}
 $chal_name = '';
 $chal_desc = '';
 $pesan = '';
 
-if(isset($_POST['btn_add_challenge'])){
+if (isset($_POST['btn_add_challenge'])) {
+    $chal_name = $_POST['chal_name'];
+    $chal_level = $_POST['chal_level'];
+    $chal_desc = $_POST['chal_desc'];
+    // DEBUG DANGER ZONE
+    $min_point = intval($_POST['min_point']);
+    $max_point = intval($_POST['max_point']);
 
-	$chal_name = $_POST['chal_name']; 
-	$chal_level = $_POST['chal_level']; 
-	$chal_desc = $_POST['chal_desc']; 
-	// DEBUG DANGER ZONE
-	$min_point = intval($_POST['min_point']); 
-	$max_point = intval($_POST['max_point']); 
+    if ($max_point<$min_point) {
+        die("max_point lebih kecil dari min_point");
+    }
+    if ($max_point<2000) {
+        die("max_point kurang dari 2000 LP");
+    }
+    if ($min_point<1000) {
+        die("min_point kurang dari 1000 LP");
+    }
 
-	if($max_point<$min_point) die("max_point lebih kecil dari min_point");
-	if($max_point<2000) die("max_point kurang dari 2000 LP");
-	if($min_point<1000) die("min_point kurang dari 1000 LP");
-
-	$s = "INSERT INTO tb_chal (
+    $s = "INSERT INTO tb_chal (
 	
 	id_room, chal_level, chal_creator, chal_name, chal_desc, min_point, max_point
 	) values (
@@ -26,35 +33,32 @@ if(isset($_POST['btn_add_challenge'])){
 
 	)";
 
-	// die($s);
+    // die($s);
 
-	if(mysqli_query($cn,$s)){
-		$pesan= "<div class='alert alert-success'>
+    if (mysqli_query($cn, $s)) {
+        $pesan= "<div class='alert alert-success'>
 		Sukses menyimpan challenge baru.<hr>
 		<a href='?chal' class='btn btn-primary btn-sm'>Back to Challenge List</a> 
 		<a href='?addchal' class='btn btn-success btn-sm'>Add New Challenge</a> 
 		</div>";
-	}else{
-		$pesan= "<div class='alert alert-danger'>
+    } else {
+        $pesan= "<div class='alert alert-danger'>
 		Gagal menyimpan challenge baru. Silahkan cek kembali input yang Anda masukan. ".mysqli_error($cn)."
 		</div>";
 
-		// $pesan .= "$s. ". mysqli_error($cn); //debug
-	}
+        // $pesan .= "$s. ". mysqli_error($cn); //debug
+    }
 
-	$pesan.="<hr>";
-
-
-
+    $pesan.="<hr>";
 }
 ?>
 
 <section id="add_chal" class="gm">
 	<div class="container">
 		<?=$pesan?>
-		<?php if($pesan==""){ ?>
+		<?php if ($pesan=="") { ?>
 			<h3>Add Challenge</h3>
-			<p>Challenge digunakan untuk mengukur keaktifan player di bidang praktikum, kerja kelompok, atau praktik lapangan. Silahkan Anda buat challenge sesuai dengan materi pada Room <?=$nama_room?>.</p>
+			<p><a href="?managechal">Manage Chal</a> | Challenge digunakan untuk mengukur keaktifan player di bidang praktikum, kerja kelompok, atau praktik lapangan. Silahkan Anda buat challenge sesuai dengan materi pada Room <?=$nama_room?>.</p>
 
 			<form method="post" action="?addchal">
 				<div class="form-group">
@@ -66,14 +70,14 @@ if(isset($_POST['btn_add_challenge'])){
 				<div class="form-group">
 					<label>Challenge Level</label>
 					<select class="form-control" name="chal_level">
-						<?php 
-						$s = "SELECT * from tb_chal_level order by rank_level";
-						$q = mysqli_query($cn,$s) or die("Tidak bisa mengakses data challenge level");
-						while($d=mysqli_fetch_assoc($q)){
-							$chal_level = ucwords($d['chal_level']);
-							echo "<option>$chal_level</option>";
-						}
-						?>
+						<?php
+                        $s = "SELECT * from tb_chal_level order by rank_level";
+		    $q = mysqli_query($cn, $s) or die("Tidak bisa mengakses data challenge level");
+		    while ($d=mysqli_fetch_assoc($q)) {
+		        $chal_level = ucwords($d['chal_level']);
+		        echo "<option>$chal_level</option>";
+		    }
+		    ?>
 					</select>
 					<small>Sesuaikan antara level challenge dengan range point yang ditawarkan!</small>
 				</div>
@@ -88,7 +92,7 @@ if(isset($_POST['btn_add_challenge'])){
 							</td>
 							<td align="center">s.d</td>
 							<td>
-								<input type="number" class="form-control" name="max_point" required min="2000" max="1000000" value="2000" value="<?=$max_point?>">			
+								<input type="number" class="form-control" name="max_point" required min="2000" max="10000000" value="2000" value="<?=$max_point?>">			
 							</td>
 						</tr>
 					</table>
