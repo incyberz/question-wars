@@ -185,6 +185,8 @@
 
 	        if ($cadmin_level>1) {
 	            $scores .= "<div class='gm_comment' id='gm_comment__$beaten_by"."__$id_chal_beatenby'>$gm_comment</div>";
+	        } elseif ($cadmin_level==1) {
+	            $scores .= "<div class='mt-2'>$gm_comment</div>";
 	        }
 
 

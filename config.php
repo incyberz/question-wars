@@ -29,7 +29,7 @@ if ($online_version) {
 } else {
     $db_server = "localhost";
     $db_user = "root";
-    $db_pass = '';
+    $db_pass = 'mylocalhost2023';
     $db_name = "db_pk2";
 }
 

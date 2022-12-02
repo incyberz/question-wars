@@ -295,4 +295,14 @@
 
   .link_btn{color:white !important} 
   code{font-size:100%}
+
+
+  .gm{
+      background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.2)), url("assets/img/gm-bg.jpg") fixed center center !important;
+  }
+
+  .player{
+      background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.2)), url("assets/img/gm-bg.jpg") fixed center center !important;
+  }
+
 </style>
