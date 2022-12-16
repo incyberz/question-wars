@@ -80,6 +80,11 @@ $b = explode("?", $a);
 $c = explode("&", $b[1]);
 $parameter = $c[0];
 
+if ($parameter=='uas') {
+    include 'uas/uas.php';
+    exit();
+}
+
 if ($parameter=='resetpass') {
     include 'pages/player/login_system/reset_password.php';
     exit();

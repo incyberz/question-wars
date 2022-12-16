@@ -1,0 +1,20 @@
+.jawaban, .nim{
+    font-family: consolas;
+    font-size: 40px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.btn_submit{
+    height: 100%;
+}
+
+select, .tipe_soal_span{
+    font-size: 50px !important;
+    text-align: center;
+}
+
+.blok_jawaban{
+    margin-top: 15px !important;
+}
