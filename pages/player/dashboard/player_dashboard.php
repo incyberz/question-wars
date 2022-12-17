@@ -50,7 +50,7 @@ $my_persen_akurasi = $my_play_count==0 ? 0 : round($my_play_count_benar/$my_play
 		<h2>Welcome back <?=$welcome_name?>!</h2>
 		<hr>
 		<?php //include "../daily_login.php";?>
-		<?php //include "../notification_from_gm.php";?>
+		<?php //include "gm_shout.php";?>
 
 		<div class="row blok_menu_dashboard" id="blok_dashboard">
 			<div class="col-lg-6">

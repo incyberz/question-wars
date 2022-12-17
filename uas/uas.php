@@ -1,4 +1,5 @@
 <?php
+die("<div class='alert alert-danger'>Maaf, saat ini UAS-2022 sudah berakhir.<hr><a href='index.php'>Login ke QWars</a></div>");
 $jawaban[0]='';
 $jawaban[1]='';
 $jawaban[2]='';
