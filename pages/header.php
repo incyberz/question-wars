@@ -15,7 +15,7 @@
     </div>
       <?php
 
-        if ($status_room==-1) {
+        if ($status_room==-1 and $cadmin_level==1) {
             include 'pages/gm/manage_room/info_room_ended.php';
         }
         ?>

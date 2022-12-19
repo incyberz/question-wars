@@ -70,8 +70,9 @@ include "../config.php";
 # ================================================
 # GET CHALLENGE LIST
 # ================================================
+$chal_visibility = $admin_level==2 ? ' 1 ' : "a.chal_visibility=1";
 $s = "SELECT a.* from tb_chal a 
-where a.chal_visibility=1 
+where $chal_visibility  
 and id_room='$id_room' 
 and $sql_level 
 and a.chal_name like '%$chal_name_filter%'

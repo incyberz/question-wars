@@ -99,7 +99,10 @@ if (mysqli_num_rows($q)==1) {
 # ===================================================
 # JUMLAH SKILL POINT
 # ===================================================
-if ($sudah_beat) {
+if ($status_room!=1) {
+    $btn_beat = '';
+    $opsi_skill_levels = "<div class='alert alert-danger'>Maaf, Anda tidak bisa Submit.<hr>Room sudah berakhir.</div>";
+} elseif ($sudah_beat) {
     $opsi_skill_levels = '';
 } else {
     $opsi_skill_levels = '<div class=wadah><h5>Skill Levels Options</h5><ul><li><i>(none)</i></li></ul></div>';
@@ -128,7 +131,6 @@ if ($sudah_beat) {
 }
 
 
-
 $chal_details = "
 <h4 style='color:#7ff' id='chal_name'>$chal_name</h4>
 ~ Level : <span id='chal_level'>$chal_level</span>
@@ -140,7 +142,7 @@ $chal_details = "
 	$input_harus_mengandung 
 	$input_tidak_mengandung 
 	$opsi_skill_levels
-			$btn_beat
+	$btn_beat
 </div>
 <hr>
 

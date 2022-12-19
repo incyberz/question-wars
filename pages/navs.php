@@ -42,7 +42,7 @@ if ($cid_room!=0 and $cadmin_level!=0) {
       <li><a href="?konversi_nilai">Nilai Saya</a></li>
       <li class="drop-down"><a href="#"><?=$cnickname ?></a>
         <ul>
-          <?php if ($status_room==1) { ?>
+          <?php if ($status_room==1 or $cadmin_level==2) { ?>
           <li><a href="?kuis">Play Quiz!</a></li>
           <li><a href="?myq">My Questions</a></li>
           <li><a href="?chal">Challenge Praktikum</a></li>
@@ -108,7 +108,12 @@ if ($cid_room!=0 and $cadmin_level!=0) {
           </ul>
         </li>
 
+
         <?php
+
+        if ($status_room==-1) {
+            echo "<span class='badge badge-danger'>Room Ended</span>";
+        }
       }
 
 
