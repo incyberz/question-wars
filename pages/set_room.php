@@ -1,35 +1,35 @@
-<?php 
+<?php
 $pesan_request='';
 
-if(isset($_POST['btn_submit_request'])){
-  $req_id_room = $_POST['req_id_room'];
-  $id_request_player = $nickname."_$req_id_room";
-  $link_go = "<hr><a href='?' class='btn btn-primary btn-sm'>Back to Set Room</a>";
+if (isset($_POST['btn_submit_request'])) {
+    $req_id_room = $_POST['req_id_room'];
+    $id_request_player = $nickname."_$req_id_room";
+    $link_go = "<hr><a href='?' class='btn btn-primary btn-sm'>Back to Set Room</a>";
 
 
-  if($req_id_room=="0"){
-    $pesan_request = "<div class='alert alert-danger'>Sepertinya kamu belum memilih Room nya!$link_go</div>";
-  }else{
-    $s = "INSERT INTO tb_request_player (id_request_player,nickname,id_room) 
+    if ($req_id_room=="0") {
+        $pesan_request = "<div class='alert alert-danger'>Sepertinya kamu belum memilih Room nya!$link_go</div>";
+    } else {
+        $s = "INSERT INTO tb_request_player (id_request_player,nickname,id_room) 
     values ('$id_request_player','$nickname','$req_id_room')";
-    $q = mysqli_query($cn,$s);
+        $q = mysqli_query($cn, $s);
 
 
-    if($q){
-      $pesan_request = "<div class='alert alert-success'>Sukses mengirimkan request<hr>
+        if ($q) {
+            $pesan_request = "<div class='alert alert-success'>Sukses mengirimkan request<hr>
       <small><i>Please wait for GM to approve your requests!</i></small>$link_go</div>";
-    }else{
-      $pesan_request = "<div class='alert alert-danger'>Gagal mengirimkan request. ".mysqli_error($cn)."$link_go</div>";
+        } else {
+            $pesan_request = "<div class='alert alert-danger'>Gagal mengirimkan request. ".mysqli_error($cn)."$link_go</div>";
+        }
     }
-  }
 }
 
 
 $btn_create_room = "<a href='?logout' name='btn_logout_no_room' class='btn btn-primary btn-block'>Logout</a>";
 $welcome_player = "Wahhh... sepertinya Anda belum dimasukan ke room oleh GM. Silahkan Anda whatsapp GM!";
-if($admin_level==2 or $admin_level==9) {
-  $welcome_player = "Wahhh... sepertinya Anda belum punya Room. Silahkan Anda buat dahulu!";
-  $btn_create_room = "<a href='?addroom' name='btn_logout_no_room' class='btn btn-primary btn-block'>Create Room</a>";
+if ($admin_level==2 or $admin_level==9) {
+    $welcome_player = "Wahhh... sepertinya Anda belum punya Room. Silahkan Anda buat dahulu!";
+    $btn_create_room = "<a href='?addroom' name='btn_logout_no_room' class='btn btn-primary btn-block'>Create Room</a>";
 }
 
 
@@ -47,12 +47,12 @@ and $sql_status_room
 order by a.nama_room
 ";
 // die($s);
-$q = mysqli_query($cn,$s) or die("Error #set_room e4r5: Can't get room data. ".mysqli_error($cn));
+$q = mysqli_query($cn, $s) or die("Error #set_room e4r5: Can't get room data. ".mysqli_error($cn));
 
 while ($d = mysqli_fetch_assoc($q)) {
-  $id_rooms = $d['id_room'];
-  $nama_rooms = $d['nama_room'];
-  $not_my_room_options.="<option value='$id_rooms'>$nama_rooms</option>";
+    $id_rooms = $d['id_room'];
+    $nama_rooms = $d['nama_room'];
+    $not_my_room_options.="<option value='$id_rooms'>$nama_rooms</option>";
 }
 
 
@@ -76,13 +76,15 @@ while ($d = mysqli_fetch_assoc($q)) {
         &nbsp;
       </div>
       <div class="col-lg-6">
-        <?php if($pesan_request!=""){echo $pesan_request;exit();} ?>
+        <?php if ($pesan_request!="") {
+            echo $pesan_request;
+            exit();
+        } ?>
         <h3>Welcome back <?=$cnama_player?></h3>
 
-        <?php 
+        <?php
         if (count($my_available_id_rooms)==0) {
-
-          ?>
+            ?>
 
           <p><?=$welcome_player?></p>
           <form method="post">
@@ -91,8 +93,8 @@ while ($d = mysqli_fetch_assoc($q)) {
 
 
           <?php
-        }else{
-          ?>
+        } else {
+            ?>
 
           <p>Kamu login sebagai: <span class="badge badge-success" style="font-size:12pt"><?=$cjenis_user?></span></p>
 
@@ -111,13 +113,13 @@ while ($d = mysqli_fetch_assoc($q)) {
 
           <br>
           <div class="text-center">Silahkan Join Room!</div>
-          <?php 
-          if(isset($_POST['id_room_selected'])){
-            $_SESSION['id_room'] = $_POST['id_room_selected'];
-            echo "<script>location.replace('index.php')</script>";
-            exit;
-          }
-          ?>
+          <?php
+            if (isset($_POST['id_room_selected'])) {
+                $_SESSION['id_room'] = $_POST['id_room_selected'];
+                echo "<script>location.replace('index.php')</script>";
+                exit;
+            }
+            ?>
 
 
           <!-- ====================================================== -->
@@ -157,19 +159,20 @@ while ($d = mysqli_fetch_assoc($q)) {
             }
           </style>
           <div class="blok_available_rooms">
-            <?php 
-            for ($i=0; $i < count($my_available_id_rooms); $i++) { 
-              echo "
+            <?php
+              for ($i=0; $i < count($my_available_id_rooms); $i++) {
+                  $btn_primary = $status_rooms[$i]==1 ? 'primary' : 'danger';
+                  echo "
               <form method='post'>
                 <input type='hidden' name='id_room_selected' value='$my_available_id_rooms[$i]'>
-                <button class='item_room btn btn-primary'>
+                <button class='item_room btn btn-$btn_primary'>
                   $my_available_nama_rooms[$i]
                   <div><img src='uploads/$my_available_room_creator_folder_uploads[$i]/_profile.jpg' class='img_room_creator'></div>
                   by: $my_available_room_creator[$i]
                 </button>
               </form>
               ";
-            }
+              }
             ?>
           </div>
 
@@ -197,7 +200,7 @@ while ($d = mysqli_fetch_assoc($q)) {
             
           </form>
 
-          <?php 
+          <?php
 
           # ====================================================== -->
           # PENDING REQUEST
@@ -205,25 +208,27 @@ while ($d = mysqli_fetch_assoc($q)) {
           $s = "SELECT a.date_request,b.nama_room from tb_request_player a 
           join tb_room b on a.id_room = b.id_room 
           where a.nickname='$cnickname' and b.status_room=1";
-          $q = mysqli_query($cn,$s) or die("Tidak bisa mengakses data request player");
-          if(mysqli_num_rows($q)>0){
-            $hasil ="<hr><p>Your pending request:</p>";
-            while($d=mysqli_fetch_assoc($q)){
-              $nama_room = $d['nama_room'];
-              $date_request = $d['date_request'];
-              $hasil.= "~ Room: $nama_room at $date_request<br>";
+            $q = mysqli_query($cn, $s) or die("Tidak bisa mengakses data request player");
+            if (mysqli_num_rows($q)>0) {
+                $hasil ="<hr><p>Your pending request:</p>";
+                while ($d=mysqli_fetch_assoc($q)) {
+                    $nama_room = $d['nama_room'];
+                    $date_request = $d['date_request'];
+                    $hasil.= "~ Room: $nama_room at $date_request<br>";
+                }
+            } else {
+                $hasil = '';
             }
-          }else{
-            $hasil = '';
-          }
 
-          echo "$hasil";
+            echo "$hasil";
 
 
-          if($admin_level==2 or $admin_level==9) echo "<a href='?addroom' class='btn btn-success btn-block' style='margin-top: 10px'>Tambah Room Baru</a>";
+            if ($admin_level==2 or $admin_level==9) {
+                echo "<a href='?addroom' class='btn btn-success btn-block' style='margin-top: 10px'>Tambah Room Baru</a>";
+            }
         }
 
-         ?>
+?>
 
 
 

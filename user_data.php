@@ -37,6 +37,7 @@ $s = "SELECT
 
 a.id_room,
 b.nama_room,
+b.status_room,
 c.nama_player as room_creator,
 c.folder_uploads as room_creator_folder_uploads 
 
@@ -51,6 +52,7 @@ $q = mysqli_query($cn, $s) or die("Error @user_var: AVAILABLE ROOMS FOR THIS PLA
 $i=0;
 while ($d = mysqli_fetch_assoc($q)) {
     $my_available_id_rooms[$i] = $d['id_room'];
+    $status_rooms[$i] = $d['status_room'];
     $my_available_nama_rooms[$i] = $d['nama_room'];
     $my_available_room_creator[$i] = $d['room_creator'];
     $my_available_room_creator_folder_uploads[$i] = $d['room_creator_folder_uploads'];
