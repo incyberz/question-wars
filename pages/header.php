@@ -7,10 +7,18 @@
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.php" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
-        <?php include "navs.php"; ?>
+        <?php
+        include "navs.php";
+        ?>
 
       </div>
     </div>
+      <?php
+
+        if ($status_room==-1) {
+            include 'pages/gm/manage_room/info_room_ended.php';
+        }
+        ?>
 
   </div>
 

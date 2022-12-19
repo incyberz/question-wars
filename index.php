@@ -28,6 +28,7 @@ $admin_level = 0;
 $cnickname = '';
 $cnama_player = "Pengunjung";
 $cid_room = 0;
+$status_room = 0;
 
 
 

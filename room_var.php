@@ -63,9 +63,10 @@
     # ================================================
     # GET DATA ROOM
     # ================================================
-    $s = "SELECT * from tb_room a 
+    $s = "SELECT a.*, b.nama_player as nama_gm from tb_room a 
+    join tb_player b on a.room_creator=b.nickname 
 	where a.id_room = '$cid_room'";
-    $q = mysqli_query($cn, $s) or die("Error @room_var. Can't get data room");
+    $q = mysqli_query($cn, $s) or die("Error @room_var. Can't get data room. ".mysqli_error($cn));
     $d = mysqli_fetch_assoc($q);
 
     $nama_room  = ucwords(strtolower($d['nama_room']));
@@ -73,6 +74,10 @@
     $senin_p1  = $d['senin_p1'];
     $senin_p9  = $d['senin_p9'];
     $room_active_points  = $d['room_active_points'];
+    $status_room  = $d['status_room'];
+    $date_end  = $d['date_end'];
+    $nama_gm  = $d['nama_gm'];
+
 
 
     # ================================================

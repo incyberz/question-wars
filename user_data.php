@@ -44,7 +44,7 @@ from tb_room_player a
 join tb_room b on a.id_room=b.id_room 
 join tb_player c on b.room_creator=c.nickname 
 where a.nickname = '$cnickname' 
-and b.status_room = 1
+and b.status_room > -2
 ";
 $q = mysqli_query($cn, $s) or die("Error @user_var: AVAILABLE ROOMS FOR THIS PLAYER<hr>".mysqli_error($cn));
 
