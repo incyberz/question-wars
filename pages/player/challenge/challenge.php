@@ -3,9 +3,14 @@
 		<h3>Challenges for You!</h3>
 		<p>Challenge adalah quest khusus dari GM di bidang praktikum komputer, kerja kelompok, atau praktik lapangan. Challenge menghasilkan learning point yang besar sesuai dengan tingkat kesulitan dan kedalaman materi.</p>
 		
-		<?php if ($cadmin_level==2 or $cadmin_level==9) {
-		    echo "<div class='text-right mb-2'><a href='?managechal' class='btn btn-primary btn-sm'>Manage Chal</a> <a href='?addchal' class='btn btn-success btn-sm'>Add Challenge</a></div>";
-		} ?>
+		<?php
+        if ($status_room==-1) {
+            echo '<div class="alert alert-danger">Maaf, sudah tidak bisa Submit Challenge karena Room telah berakhir.</div>';
+        }
+        if ($cadmin_level==2 or $cadmin_level==9) {
+            echo "<div class='text-right mb-2'><a href='?managechal' class='btn btn-primary btn-sm'>Manage Chal</a> <a href='?addchal' class='btn btn-success btn-sm'>Add Challenge</a></div>";
+        }
+		?>
 		
 		<style type="text/css">
 			#chal_list ol{padding: 0 0 0 20px;}

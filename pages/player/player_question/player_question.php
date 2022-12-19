@@ -148,7 +148,7 @@ $ket_jumlah_soal .= '</ul>';
 
 		<div class="row">
 			<div class="col-lg-4">
-				<button class="btn btn-success btn-block btn_add_soal">Add Soal</button>
+				<?=$btn_tambah?>
 			</div>
 		</div>
 
@@ -158,10 +158,15 @@ $ket_jumlah_soal .= '</ul>';
 
 
 
-<?php include 'js_soal_functions.php'; ?>
-<?php include 'js_soal_doc_ready.php'; ?>
-<?php include 'js_soal_editable.php'; ?>
-<?php include 'js_soal_set_kj_benar.php'; ?>
-<?php include 'js_soal_set_materi.php'; ?>
-<?php include 'js_soal_btn_aksi.php'; ?>
-<?php include 'js_soal_cek_similar.php'; ?>
+<?php
+
+    include 'js_soal_functions.php';
+include 'js_soal_doc_ready.php';
+if ($status_room==1) {
+    include 'js_soal_editable.php';
+    include 'js_soal_set_kj_benar.php';
+    include 'js_soal_set_materi.php';
+    include 'js_soal_btn_aksi.php';
+    include 'js_soal_cek_similar.php';
+}
+?>

@@ -1,8 +1,8 @@
 <section id="pre_kuis" class="player">
 	<div class="container">
 		<div class="blok_kuis">
-			<?php 
-			$hints_for_gm = '';
+			<?php
+            $hints_for_gm = '';
 
 			include 'kuis_styles.php';
 			?>
@@ -10,12 +10,12 @@
 				<h3 class="text-center">Beat Your Friend's Questions</h3>
 				<br>
 
-				<?php 
+				<?php
 
-				# ================================================
-				# GET UNPLAYED QUESTIONS
-				# ================================================
-				$s = "
+			    # ================================================
+			    # GET UNPLAYED QUESTIONS
+			    # ================================================
+			    $s = "
 				SELECT a.id_room_subject, a.nama_subject,  
 				(
 					SELECT count(1) from tb_soal s 
@@ -37,36 +37,36 @@
 				AND a.nama_subject NOT LIKE '%materi umum%'
 				";
 
-				// die($s);
+			// die($s);
 
-				$q = mysqli_query($cn,$s) or die("Error pre_kuis. ".mysqli_error($cn));
-				$opt = '';
-				$is_available = 0;
-				while ($d = mysqli_fetch_assoc($q)) {
-					$id_room_subject = $d['id_room_subject'];
-					$nama_subject = $d['nama_subject'];
-					$jumlah_unplayed_room = $d['jumlah_unplayed_room'];
+			$q = mysqli_query($cn, $s) or die("Error pre_kuis. ".mysqli_error($cn));
+			$opt = '';
+			$is_available = 0;
+			while ($d = mysqli_fetch_assoc($q)) {
+			    $id_room_subject = $d['id_room_subject'];
+			    $nama_subject = $d['nama_subject'];
+			    $jumlah_unplayed_room = $d['jumlah_unplayed_room'];
 
-					if($jumlah_unplayed_room>=20){
-						$opt .= "<option value='$id_room_subject'>$nama_subject</option>";
-						$is_available=1;
-					}
-				}
+			    if ($jumlah_unplayed_room>=20) {
+			        $opt .= "<option value='$id_room_subject'>$nama_subject</option>";
+			        $is_available=1;
+			    }
+			}
 
 
 
-				$disabled_ready_to_play = " disabled ";
-				$btn_ready_to_play_ket_hide_style = '';
-				$sty_soal_habis = '';
-				$sty_soal_available = "display:none";
+			$disabled_ready_to_play = " disabled ";
+			$btn_ready_to_play_ket_hide_style = '';
+			$sty_soal_habis = '';
+			$sty_soal_available = "display:none";
 
-				if($is_available){
-					$disabled_ready_to_play = '';
-					$btn_ready_to_play_ket_hide_style = "hideit";
-					$sty_soal_habis = "display:none";
-					$sty_soal_available = '';
-				}
-				?>
+			if ($is_available) {
+			    $disabled_ready_to_play = '';
+			    $btn_ready_to_play_ket_hide_style = "hideit";
+			    $sty_soal_habis = "display:none";
+			    $sty_soal_available = '';
+			}
+			?>
 				<div id="pengantar_soal_habis" style="<?=$sty_soal_habis?>">
 					<p>Ooppsss...</p>
 					<img id='img_play_kuis' src='assets/img/soal_habis.png' height='150px' style='margin: 15px'>
@@ -82,10 +82,17 @@
 				<!-- ====================================== -->
 				<div style='margin: 10px 0'>
 					<!-- <select class="form-control input-sm" id="id_room_subject" <?=$disabled_ready_to_play ?>> -->
-					<select class="form-control input-sm" id="id_room_subject" disabled>
-						<option value="0">--Pilih Sesi MK--</option>
-						<?=$opt?>
-					</select>
+					<?php
+			    if ($status_room==1) {
+			        echo "
+						<select class='form-control input-sm' id='id_room_subject' disabled>
+						<option value='0'>--Pilih Sesi MK--</option>
+						$opt
+						</select>";
+			    } else {
+			        echo '<div class="alert alert-danger">Maaf, tidak bisa Play Kuis karena Room ini sudah berakhir.</div>';
+			    }
+			?>
 					<!-- <p class="ket_select" class="hideit">Sebanyak 20 soal pada sesi ini akan di-load untuk Paket Soal kamu. Pastikan koneksi internet lancar dan jangan melakukan refresh saat mengerjakan soal!</p> -->
 					<p class="alert alert-danger" style="color:red">Mohon maaf kawan-kawan!! Untuk saat ini Fitur Play Kuis belum bisa dimainkan, karena dibanned oleh rumah-web dg alasan too many request, nantikan fitur Play Kuis Offline per Paket Soal!</p>
 					<button id="btn_ready_to_play" class="btn-primary btn-block tombol" disabled="" style="margin-top:10px">Ready to Play!</button>

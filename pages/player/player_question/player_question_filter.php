@@ -1,14 +1,16 @@
-<?php 
+<?php
 $id_room_subject_selected = isset($_GET['id_room_subject_selected']) ? $_GET['id_room_subject_selected'] : '';
 $get_keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
 $get_status_soal = isset($_GET['status_soal']) ? $_GET['status_soal'] : '';
 $get_visibility_soal = isset($_GET['visibility_soal']) ? $_GET['visibility_soal'] : '';
 
+$btn_tambah = '<button class="btn btn-success btn-block btn_add_soal">Add Soal</button>';
+$btn_tambah = $status_room==1 ? $btn_tambah : '<button class="btn btn-danger btn-block" disabled>Room Berakhir</button>';
 
 $zid_room_subjects = '';
 $zsesi_mks = '';
-if($cid_room>0){
-  $s = "SELECT 
+if ($cid_room>0) {
+    $s = "SELECT 
   a.id_room_subject, 
   a.nama_subject 
   
@@ -16,13 +18,13 @@ if($cid_room>0){
   WHERE a.id_room=$cid_room 
   AND a.nama_subject NOT LIKE '%materi_umum%'  
   ";
-  // die($s);
-  $q = mysqli_query($cn, $s) or die(mysqli_error($cn));
+    // die($s);
+    $q = mysqli_query($cn, $s) or die(mysqli_error($cn));
 
-  while ($d=mysqli_fetch_assoc($q)) {
-    $zid_room_subjects .= $d['id_room_subject'].'__';
-    $zsesi_mks .= $d['nama_subject'].'__';
-  }
+    while ($d=mysqli_fetch_assoc($q)) {
+        $zid_room_subjects .= $d['id_room_subject'].'__';
+        $zsesi_mks .= $d['nama_subject'].'__';
+    }
 }
 
 $rsesi_mks = explode('__', $zsesi_mks);
@@ -48,10 +50,10 @@ $rid_room_subjects = explode('__', $zid_room_subjects);
 			<div>Sesi MK: <input class="debug" id="id_room_subject_selected" value="<?=$id_room_subject_selected ?>"></div> 
 			<select class="form-control input-sm" id="filter__id_room_subject">
 				<option value="all">--All--</option>
-				<?php 
-				for ($i=0; $i < (count($rsesi_mks)-1) ; $i++){
-					echo "<option value='$rid_room_subjects[$i]'>$rsesi_mks[$i]</option>";
-				} ?>
+				<?php
+                for ($i=0; $i < (count($rsesi_mks)-1) ; $i++) {
+                    echo "<option value='$rid_room_subjects[$i]'>$rsesi_mks[$i]</option>";
+                } ?>
 			</select>
 		</div>
 		<div class="col-lg-4">
@@ -77,7 +79,7 @@ $rid_room_subjects = explode('__', $zid_room_subjects);
 		</div>
 		<div class="col-lg-4">
 			<div>Tambah Soal:</div>
-			<button class="btn btn-success btn-block btn_add_soal">Add Soal</button>
+			<?=$btn_tambah?>
 		</div>
 	</div>
 </div>

@@ -42,13 +42,11 @@ if ($cid_room!=0 and $cadmin_level!=0) {
       <li><a href="?konversi_nilai">Nilai Saya</a></li>
       <li class="drop-down"><a href="#"><?=$cnickname ?></a>
         <ul>
-          <?php if ($status_room==1 or $cadmin_level==2) { ?>
           <li><a href="?kuis">Play Quiz!</a></li>
           <li><a href="?myq">My Questions</a></li>
           <li><a href="?chal">Challenge Praktikum</a></li>
           <!-- <li><a href="?tugas">Tugas Harian</a></li> -->
           <li><a href="?presensi">Presensi Kuliah</a></li>
-          <?php } ?>
           <!-- <li><a href="about/">My Profile</a></li> -->
           <li><a href="?ubah_pass">Ubah Password</a></li>
           <li><a href="?ubah_profil">Ubah Profil</a></li>
@@ -112,7 +110,7 @@ if ($cid_room!=0 and $cadmin_level!=0) {
         <?php
 
         if ($status_room==-1) {
-            echo "<span class='badge badge-danger'>Room Ended</span>";
+            echo "<span class='badge badge-danger align-middle'>Room Ended</span>";
         }
       }
 
@@ -126,6 +124,9 @@ if ($cid_room!=0 and $cadmin_level!=0) {
         ";
       }
     }
+
+
+
 ?>
 
 

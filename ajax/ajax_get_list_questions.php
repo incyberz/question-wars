@@ -436,14 +436,18 @@ while ($d=mysqli_fetch_assoc($q)) {
 
 
     # ============================================================
-    # DESAIN AKSI-AKSI BUTTONS
+    # DESAIN AKSI-AKSI BUTTONS IF ROOM ACTIVE
     # ============================================================
-    $hide_delete 	= substr($btn_states, 0, 1)=='0' ? 'hideit' : '';
-    $hide_suspend = substr($btn_states, 1, 1)=='0' ? 'hideit' : '';
-    $hide_publish = substr($btn_states, 2, 1)=='0' ? 'hideit' : '';
-    $hide_copy 		= substr($btn_states, 3, 1)=='0' ? 'hideit' : '';
+    $btn_aksis = '<div class="alert alert-danger">Room Berakhir. Soal tidak bisa dimanipulasi</div>';
+    $s = "SELECT status_room from tb_room where id_room='$cid_room' and status_room=1";
+    $q = mysqli_query($cn, $s) or die("Error @ajax. SQL error. ".mysqli_error($cn));
+    if (mysqli_num_rows($q)) {
+        $hide_delete 	= substr($btn_states, 0, 1)=='0' ? 'hideit' : '';
+        $hide_suspend = substr($btn_states, 1, 1)=='0' ? 'hideit' : '';
+        $hide_publish = substr($btn_states, 2, 1)=='0' ? 'hideit' : '';
+        $hide_copy 		= substr($btn_states, 3, 1)=='0' ? 'hideit' : '';
 
-    $btn_aksis = "
+        $btn_aksis = "
 	<div class='row aksi_soal'>
 		<div class='col-3 $hide_delete'>
 			<button class='btn btn-block btn-sm btn-danger btn_aksi' id='delete__$id_soal'>Delete</button>
@@ -459,6 +463,8 @@ while ($d=mysqli_fetch_assoc($q)) {
 		</div>
 	</div>
 	";
+    }
+
 
 
 
