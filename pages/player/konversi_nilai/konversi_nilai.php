@@ -19,6 +19,11 @@
 
 
 		<?php
+		if($cadmin_level==1){
+
+        die("Fitur Nilai Akhir sedang dikerjakan oleh pa iin, harap bersabar.");
+
+		}
 
 
         # ================================================
