@@ -19,11 +19,13 @@
 
 
 		<?php
-		if($cadmin_level==1){
-
-        die("Fitur Nilai Akhir sedang dikerjakan oleh pa iin, harap bersabar.");
-
-		}
+        if ($cadmin_level==1) {
+            if (isset($_SESSION['logas_nickname'])) {
+                echo "logas_nickname: ".$_SESSION['logas_nickname'];
+            } else {
+                die("<div class='alert alert-danger'>Fitur Nilai Akhir sedang dikerjakan oleh pa iin, harap bersabar.</div>");
+            }
+        }
 
 
         # ================================================

@@ -98,6 +98,8 @@ switch ($parameter) {
                     break;
                 case 'lap_na': include "pages/gm/laporan_nilai_akhir/laporan_nilai_akhir.php";
                     break;
+                case 'update_user_vars': include "pages/gm/update_user_vars/update_user_vars.php";
+                    break;
                 case 'logas': include "pages/gm/login_as/login_as.php";
                     break;
                 default: include "na.php";

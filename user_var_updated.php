@@ -13,6 +13,7 @@ ORDER BY a.room_player_point DESC, b.nama_player
 ";
 
 $q = mysqli_query($cn, $s) or die("Error #room_var1 Can't get room data");
+$rank_player=0;
 while ($d = mysqli_fetch_assoc($q)) {
     $rank_player++;
     if (strtoupper($d['nickname'])==strtoupper($cnickname)) {
@@ -65,6 +66,7 @@ if ($kelas=='') {
     ";
 
     $q = mysqli_query($cn, $s) or die("Error @player_dashboard_kelas #1 Can't get room data. ".mysqli_error($cn));
+    $rank_player_in_kelas=0;
     while ($d = mysqli_fetch_assoc($q)) {
         $rank_player_in_kelas++;
         if (strtoupper($d['nickname'])==strtoupper($cnickname)) {
@@ -104,6 +106,7 @@ if ($prodi=='') {
     ";
 
     $q = mysqli_query($cn, $s) or die("Error @player_dashboard_prodi #1 Can't get room data. ".mysqli_error($cn));
+    $rank_player_in_prodi=0;
     while ($d = mysqli_fetch_assoc($q)) {
         $rank_player_in_prodi++;
         if (strtoupper($d['nickname'])==strtoupper($cnickname)) {
