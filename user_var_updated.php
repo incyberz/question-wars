@@ -51,8 +51,10 @@ while ($d = mysqli_fetch_assoc($q)) {
 # ================================================
 # MY RANK KELAS
 # ================================================
+$rank_player_in_kelas=0;
+$list_point_in_class = [];
 if ($kelas=='') {
-    die('Error @user_var_updated. Player belum dimasukan ke grup-kelas.');
+    //die('Error @user_var_updated. Player belum dimasukan ke grup-kelas.');
 } else {
     $s = "SELECT a.nickname, b.nama_player, a.room_player_point 
     FROM tb_room_player a 
@@ -66,7 +68,6 @@ if ($kelas=='') {
     ";
 
     $q = mysqli_query($cn, $s) or die("Error @player_dashboard_kelas #1 Can't get room data. ".mysqli_error($cn));
-    $rank_player_in_kelas=0;
     while ($d = mysqli_fetch_assoc($q)) {
         $rank_player_in_kelas++;
         if (strtoupper($d['nickname'])==strtoupper($cnickname)) {
@@ -90,8 +91,10 @@ if ($kelas=='') {
 # ================================================
 # MY RANK PRODI
 # ================================================
+$rank_player_in_prodi=0;
+$list_player_in_prodi = [];
 if ($prodi=='') {
-    die('Error @user_var_updated. Player belum dimasukan ke grup-prodi.');
+    //die('Error @user_var_updated. Player belum dimasukan ke grup-prodi.');
 } else {
     $s = "SELECT a.nickname, b.nama_player, a.room_player_point 
     FROM tb_room_player a 
@@ -106,7 +109,6 @@ if ($prodi=='') {
     ";
 
     $q = mysqli_query($cn, $s) or die("Error @player_dashboard_prodi #1 Can't get room data. ".mysqli_error($cn));
-    $rank_player_in_prodi=0;
     while ($d = mysqli_fetch_assoc($q)) {
         $rank_player_in_prodi++;
         if (strtoupper($d['nickname'])==strtoupper($cnickname)) {

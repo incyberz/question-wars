@@ -23,7 +23,7 @@
             if (isset($_SESSION['logas_nickname'])) {
                 echo "logas_nickname: ".$_SESSION['logas_nickname'];
             } else {
-                die("<div class='alert alert-danger'>Fitur Nilai Akhir sedang dikerjakan oleh pa iin, harap bersabar.</div>");
+                //die("<div class='alert alert-danger'>Fitur Nilai Akhir sedang dikerjakan oleh pa iin, harap bersabar.</div>");
             }
         }
 
@@ -31,35 +31,37 @@
         # ================================================
         # JUMLAH PLAYER IN KELAS
         # ================================================
-        if ($kelas=='') {
-            die('Error @room_var_updated. Player belum dimasukan ke grup-kelas.');
-        } else {
-            $s = "SELECT 1 
-			FROM tb_room_player a 
-			join tb_player b ON a.nickname = b.nickname 
-			JOIN tb_kelas_det c ON b.nickname=c.nickname 
-			WHERE b.status_aktif = 1 
-			and a.id_room = $cid_room 
-			and b.admin_level = 1 
-			and c.kelas = '$kelas' 
-			ORDER BY a.room_player_point DESC, b.nama_player 
-			";
+        $jumlah_player_in_kelas=0;
+		if ($kelas=='') {
+		    //die('Error @room_var_updated. Player belum dimasukan ke grup-kelas.');
+		} else {
+		    $s = "SELECT 1 
+						FROM tb_room_player a 
+						join tb_player b ON a.nickname = b.nickname 
+						JOIN tb_kelas_det c ON b.nickname=c.nickname 
+						WHERE b.status_aktif = 1 
+						and a.id_room = $cid_room 
+						and b.admin_level = 1 
+						and c.kelas = '$kelas' 
+						ORDER BY a.room_player_point DESC, b.nama_player 
+						";
 
-            $q = mysqli_query($cn, $s) or die("Error @player_dashboard_kelas #1 Can't get room data. ".mysqli_error($cn));
-            $jumlah_player_in_kelas = mysqli_num_rows($q);
-        }
-
-
-
+		    $q = mysqli_query($cn, $s) or die("Error @player_dashboard_kelas #1 Can't get room data. ".mysqli_error($cn));
+		    $jumlah_player_in_kelas = mysqli_num_rows($q);
+		}
 
 
-        # ================================================
-        # JUMLAH PLAYER IN PRODI
-        # ================================================
-        if ($prodi=='') {
-            die('Error @room_var_updated. Player belum dimasukan ke grup-prodi.');
-        } else {
-            $s = "SELECT 1  
+
+
+
+		# ================================================
+		# JUMLAH PLAYER IN PRODI
+		# ================================================
+		$jumlah_player_in_prodi=0;
+		if ($prodi=='') {
+		    //die('Error @room_var_updated. Player belum dimasukan ke grup-prodi.');
+		} else {
+		    $s = "SELECT 1  
 			FROM tb_room_player a 
 			join tb_player b ON a.nickname = b.nickname 
 			JOIN tb_kelas_det c ON b.nickname=c.nickname 
@@ -71,15 +73,15 @@
 			ORDER BY a.room_player_point DESC, b.nama_player 
 			";
 
-            $q = mysqli_query($cn, $s) or die("Error @player_dashboard_prodi #1 Can't get room data. ".mysqli_error($cn));
-            $jumlah_player_in_prodi = mysqli_num_rows($q);
-        }
+		    $q = mysqli_query($cn, $s) or die("Error @player_dashboard_prodi #1 Can't get room data. ".mysqli_error($cn));
+		    $jumlah_player_in_prodi = mysqli_num_rows($q);
+		}
 
 
         # =================================================
         # DEBUG VARIABEL
         # =================================================
-        $min_buat_soal = 3; // per minggu
+		$min_buat_soal = 3; // per minggu
 		$min_daily_login = 3; // per minggu
 
 		if ($jumlah_player_in_kelas<10) {

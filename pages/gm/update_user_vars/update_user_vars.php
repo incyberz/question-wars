@@ -85,7 +85,7 @@ while ($d1=mysqli_fetch_assoc($q1)) {
     # MY RANK KELAS
     # ================================================
     if ($kelas=='') {
-        die('Error @user_var_updated. Player belum dimasukan ke grup-kelas.');
+        die('Error fitur-GM @user_var_updated. Player belum dimasukan ke grup-kelas.');
     } else {
         $s = "SELECT a.nickname, b.nama_player, a.room_player_point 
         FROM tb_room_player a 
