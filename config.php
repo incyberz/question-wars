@@ -30,7 +30,7 @@ if ($online_version) {
     $db_server = "localhost";
     $db_user = "root";
     $db_pass = 'mylocalhost2023';
-    $db_name = "db_pk2";
+    $db_name = "db_pk_2301";
 }
 
 $cn = new mysqli($db_server, $db_user, $db_pass, $db_name);

@@ -81,17 +81,18 @@
 				<!-- SELECT SESI -->
 				<!-- ====================================== -->
 				<div style='margin: 10px 0'>
-					<select class="form-control input-sm" id="id_room_subject" <?=$disabled_ready_to_play ?>>
 					<?php
-			    if ($status_room==1) {
-			        echo "
-						<select class='form-control input-sm' id='id_room_subject' disabled>
+			        $status_room=1; //zzz debug
+
+			if ($status_room==1) {
+			    echo "
+						<select class='form-control input-sm' id='id_room_subject' $disabled_ready_to_play>
 						<option value='0'>--Pilih Sesi MK--</option>
 						$opt
 						</select>";
-			    } else {
-			        echo '<div class="alert alert-danger">Maaf, tidak bisa Play Kuis karena Room ini sudah berakhir.</div>';
-			    }
+			} else {
+			    echo '<div class="alert alert-danger">Maaf, tidak bisa Play Kuis karena Room ini sudah berakhir.</div>';
+			}
 			?>
 					<p class="ket_select" class="hideit">Sebanyak 20 soal pada sesi ini akan di-load untuk Paket Soal kamu. Pastikan koneksi internet lancar dan jangan melakukan refresh saat mengerjakan soal!</p>
 					<!-- <p class="alert alert-danger" style="color:red">Mohon maaf kawan-kawan!! Untuk saat ini Fitur Play Kuis belum bisa dimainkan, karena dibanned oleh rumah-web dg alasan too many request, nantikan fitur Play Kuis Offline per Paket Soal!</p> -->

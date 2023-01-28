@@ -3,7 +3,7 @@ No,Nickname/NIM/NIS,Nama Player,Learning Points
 2,41215498,Syaeful Annas,221832
 3,32211524,Ikna Khoerudin,205547
 4,41215685,Divia Azarine,202851
-5,41215546,Muhammad Khoirul Huda,185216
+5,41215546,Muhammad Khoirul Huda,185221
 6,41215594,Rizki Ramdani,179154
 7,41215294,Arya Nuryana,173140
 8,41215377,Farah Nur Farida,153583
@@ -23,7 +23,7 @@ No,Nickname/NIM/NIS,Nama Player,Learning Points
 22,32211472,Kuryati,123812
 23,41215615,Rifqi Nugraha,122904
 24,41215514,Ikhfal Halim Syah,120582
-25,41215567,Suparman,119673
+25,41215567,Suparman,119678
 26,32211460,Inggit Agustina,113218
 27,41215416,Muhamad Muzani,110630
 28,43210054,Adam Riansah,109671
@@ -36,7 +36,7 @@ No,Nickname/NIM/NIS,Nama Player,Learning Points
 35,32211514,Pita Triya,99523.7
 36,32211506,Wiwin Aprilyani,98403.6
 37,41215381,Feni Mahmudah,97446.5
-38,32211499,Mia Samrotul Karomah,93849.9
+38,32211499,Mia Samrotul Karomah,93864.9
 39,41215493,Mochammad Fatha Mudzhaffar,90119.7
 40,41226065,Aji Susanto,89599.6
 41,32211465,Guruh Maulana,88759.1
@@ -45,9 +45,9 @@ No,Nickname/NIM/NIS,Nama Player,Learning Points
 44,41215651,Muhammad Hilmy Naufan,82298
 45,41215611,Dwina Aurelia Agustina,81625.6
 46,41215483,Rotika,81028.1
-47,41215305,Masdarul Rizqi,79405.3
+47,41215305,Masdarul Rizqi,79410.3
 48,43210032,May She Diva Puspita,78330.1
-49,32211496,Dewi Basmallah,77853.8
+49,32211496,Dewi Basmallah,77863.8
 50,32211493,Ninda Siti Paridah,77733.5
 51,41215366,Bagus Hermawan,73041.9
 52,41215399,Kevin Salsabil Arlandy,72201.4
@@ -55,8 +55,8 @@ No,Nickname/NIM/NIS,Nama Player,Learning Points
 54,41215472,Viona Rahmawati,70624.7
 55,41215308,Muhammad Fitrian Shousyade Alm,69482.4
 56,41215757,Rizky Hidayattullah,68901.3
-57,41215518,Apriliana Janatu Marwa,68733
-58,32211503,Nur Asih,67768
+57,41215518,Apriliana Janatu Marwa,68738
+58,32211503,Nur Asih,67778
 59,42210027,Siti Aisah,66473.2
 60,41215554,Fany Septiyany,65112.4
 61,41226038,Muhammad Adithya Pratama,62995.2
@@ -65,7 +65,7 @@ No,Nickname/NIM/NIS,Nama Player,Learning Points
 64,41215404,Luthvi Nurfauzi Darussalam,61323.7
 65,41215723,Dwi Sartika,60147.1
 66,41226068,Angga Saputra,58289.6
-67,32211477,Nina Wahyunisari,56327.4
+67,32211477,Nina Wahyunisari,56337.4
 68,41215601,Juliyanti,54861.8
 69,41215908,Erinna Astiadewi,52673.1
 70,32211518,Asep Rusito,51614.4
@@ -122,7 +122,7 @@ No,Nickname/NIM/NIS,Nama Player,Learning Points
 121,41215410,Moh. Karto,24891.1
 122,32211509,Indri Dinda Anjani,24640.6
 123,41215439,Nurul Muna Fithriyani,24466.2
-124,41215599,Hardika,24040.1
+124,41215599,Hardika,24045.1
 125,41215407,Mifta Almaripat,23817.1
 126,41216022,Alfonda Harsa Dwitama,23689.3
 127,41215667,Salsabilla,23554.2
@@ -154,15 +154,15 @@ No,Nickname/NIM/NIS,Nama Player,Learning Points
 153,41215657,Supta Danil,14499
 154,32211523,Novi Rohayati,14050.4
 155,43210033,Muhammad Wildan Maulana,13639.3
-156,41215400,Khusnul Khotimah,13432.2
-157,43210042,Gilang Sanjaya,13395.8
-158,41215494,Patria Gita Laksamana,13191.8
-159,43210017,Nurfadhilah Safitri,13132.3
-160,43210044,Kania Pramesya Anhar,13110.5
-161,41226198,Hifni Khakim,12930.6
-162,41215304,Madyanto,12920.1
-163,32211483,Jihan Muslimah Az-zahro,12909
-164,salwa,Salwa Fatimah,12895
+156,salwa,Salwa Fatimah,13599
+157,41215400,Khusnul Khotimah,13432.2
+158,43210042,Gilang Sanjaya,13395.8
+159,41215494,Patria Gita Laksamana,13191.8
+160,43210017,Nurfadhilah Safitri,13132.3
+161,43210044,Kania Pramesya Anhar,13110.5
+162,41226198,Hifni Khakim,12930.6
+163,41215304,Madyanto,12920.1
+164,32211483,Jihan Muslimah Az-zahro,12909
 165,43210041,Vera Apritasarie,12517.6
 166,32211512,Herlina Surisma,12450.6
 167,41215879,Alfi Rizqi Falih,11996.3
@@ -584,4 +584,4 @@ No,Nickname/NIM/NIS,Nama Player,Learning Points
 583,41226168,Zulfikar,0
 
 
-Data from Question Wars Gamified Systems :: 2022-12-19 11:34:40
+Data from Question Wars Gamified Systems :: 2023-01-28 08:15:50
